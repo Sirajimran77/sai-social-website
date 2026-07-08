@@ -21,6 +21,10 @@ img{display:block;max-width:100%}
 button{font-family:inherit}
 a{color:inherit;text-decoration:none}
 main{display:block}
+/* The hidden attribute must always win over explicit display rules below
+   (main{display:block}, .mobile-menu{display:flex}) — otherwise the About /
+   Privacy views and the mobile menu render permanently. */
+[hidden]{display:none!important}
 
 .wrap{max-width:1180px;margin:0 auto;width:100%;padding:0 var(--page-pad)}
 .wrap-narrow{max-width:1080px;margin:0 auto;width:100%;padding:0 var(--page-pad)}
@@ -100,6 +104,8 @@ main{display:block}
 .mobile-menu a:nth-child(5){animation-delay:.21s}
 .mobile-menu .mm-cta{margin-top:14px;text-align:center;background:var(--accent);color:#fff;padding:16px;border:2px solid var(--accent);animation-delay:.26s}
 @media(max-width:900px){.nav-links{display:none}.nav-cta-d{display:none}.nav-burger{display:inline-flex}}
+/* Mobile menu + burger are a mobile-only affordance — never expose them on desktop. */
+@media(min-width:901px){.mobile-menu{display:none!important}.nav-burger{display:none!important}}
 
 /* ==================== HERO ==================== */
 .hero{position:relative;overflow:hidden;background:#000;min-height:92vh;display:flex;align-items:flex-end}
