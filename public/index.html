@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAI Social — We fill the room before the doors open</title>
+<meta name="description" content="SAI Social builds the demand engine — paid ads, scroll-stopping content and a booking funnel — that packs your venue night after night. Not impressions. Bodies through the door.">
+<link rel="icon" href="assets/logo-mark-white-t.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="site-header">
+  <div class="nav-inner">
+    <a data-nav="home" class="nav-logo" aria-label="SAI Social — home">
+      <img src="assets/logo-lockup-white-t.png" alt="SAI Social">
+    </a>
+    <nav class="nav-links">
+      <a class="nlink" data-scroll="services">Services</a>
+      <a class="nlink" data-scroll="audit" style="color:#0F3DFF">Free Audit</a>
+      <a class="nlink" data-scroll="cases">Work</a>
+      <a class="nlink" data-scroll="process">Process</a>
+      <a class="nlink" data-nav="about">About</a>
+    </nav>
+    <div class="nav-cta-d">
+      <a class="btn btn-accent-sm" data-scroll="contact">Book a call</a>
+    </div>
+    <button class="nav-burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <a data-scroll="services">Services</a>
+    <a data-scroll="audit" style="color:#0F3DFF">Free Audit</a>
+    <a data-scroll="cases">Work</a>
+    <a data-scroll="process">Process</a>
+    <a data-nav="about">About</a>
+    <a class="mm-cta" data-scroll="contact">Book a strategy call</a>
+  </div>
+</header>
+
+<!-- ===================== HOME ===================== -->
+<main id="view-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="assets/photo-dancefloor.png" alt="" aria-hidden="true" class="hero-img">
+      <div class="hero-grad"></div>
+      <div class="hero-beam"></div>
+    </div>
+    <div class="hero-content wrap">
+      <div class="eyebrow-wrap"><span class="eyebrow eyebrow-accent anim-rise" style="animation-delay:.05s"><span class="rule"></span>Nightlife · Restaurants · Hospitality</span></div>
+      <h1 class="hero-h1">
+        <span class="line"><span class="anim-rise" style="animation-delay:.12s">We fill the</span></span>
+        <span class="line"><span class="anim-rise" style="animation-delay:.22s">room before</span></span>
+        <span class="line"><span class="anim-rise" style="animation-delay:.32s">the doors <span style="color:#0F3DFF">open.</span></span></span>
+      </h1>
+      <p class="hero-sub anim-rise" style="animation-delay:.44s">
+        SAI Social builds the demand engine — paid ads, scroll-stopping content and a booking funnel — that packs your venue night after night. Not impressions. Bodies through the door.
+      </p>
+      <div class="hero-cta anim-rise" style="animation-delay:.56s">
+        <a class="btn btn-accent" data-scroll="audit">Get your free audit <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7V16"></path></svg></a>
+        <a class="btn btn-ghost-light" data-scroll="cases">See the results</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>Scale <span class="dim">◆</span> Adapt <span class="dim">◆</span> Improve <span class="dim">◆</span> Sold-Out Nights <span class="dim">◆</span> Full Tables <span class="dim">◆</span> Booked-Out Brunch <span class="dim">◆</span> Real Bodies <span class="dim">◆</span> Scale <span class="dim">◆</span> Adapt <span class="dim">◆</span> Improve <span class="dim">◆</span> Sold-Out Nights <span class="dim">◆</span> Full Tables <span class="dim">◆</span> Booked-Out Brunch <span class="dim">◆</span> Real Bodies <span class="dim">◆</span> </span>
+    </div>
+  </div>
+
+  <!-- GROWTH AUDIT -->
+  <section id="audit" class="audit-section">
+    <div class="wrap-narrow">
+      <div class="reveal" style="max-width:60ch">
+        <span class="eyebrow eyebrow-accent"><span class="rule"></span>Free 2-minute growth audit</span>
+        <h2 class="h2-dark">Score your venue. See where you're leaking bookings.</h2>
+        <p class="lead-dark">Answer five quick questions about how you show up online. We'll score you out of 20 and show you exactly which growth tier fits — no email required.</p>
+      </div>
+
+      <!-- QUIZ -->
+      <div id="audit-box" class="audit-box">
+        <div class="audit-progress">
+          <span class="audit-qlabel">Question <span id="auditStepLabel">1 / 5</span></span>
+          <div class="audit-bar"><div class="audit-bar-fill" id="auditBarFill" style="width:0%"></div></div>
+          <span class="audit-score">Score <span id="auditScore">0</span> / 20</span>
+        </div>
+        <div id="auditQuestion" class="audit-q"></div>
+        <div class="audit-back-wrap">
+          <button id="auditBack" class="audit-back" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg> Previous</button>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div id="audit-result" class="audit-result-wrap" hidden>
+        <div class="reveal audit-result">
+          <div class="audit-result-grid">
+            <div class="audit-result-main">
+              <span class="eyebrow eyebrow-accent">Your recommended tier</span>
+              <div class="audit-tier-name" id="tierName">Foundation</div>
+              <div class="audit-tier-price" id="tierPrice"></div>
+              <p class="audit-tier-blurb" id="tierBlurb"></p>
+            </div>
+            <div class="audit-result-side">
+              <div class="audit-result-score">You scored <span id="resultScore">0</span> / 20</div>
+              <a class="btn btn-accent-outline" data-scroll="contact"><span>Book your strategy call</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex:none"><path d="M7 17L17 7M17 7H8M17 7V16"></path></svg></a>
+              <button id="auditReset" class="btn-retake">Retake the audit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-section">
+    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="stats-globe">
+    <div class="reveal wrap" style="position:relative">
+      <span class="eyebrow eyebrow-accent"><span class="rule"></span>The numbers</span>
+      <h2 class="h2-light" style="max-width:18ch">We report bodies, not vanity metrics.</h2>
+      <div class="stats-grid" id="statsGrid"></div>
+    </div>
+  </section>
+
+  <!-- SERVICES ACCORDION -->
+  <section id="services" class="services-section">
+    <div class="reveal wrap">
+      <div class="services-head">
+        <div>
+          <span class="eyebrow eyebrow-muted"><span class="rule"></span>What we do</span>
+          <h2 class="h2-dark" style="max-width:16ch;margin-bottom:0">Everything it takes to pack the room.</h2>
+        </div>
+        <p class="services-head-p">Run one channel or the full stack. Tap any service to see exactly what you get.</p>
+      </div>
+      <div class="accordion" id="servicesAccordion"></div>
+    </div>
+  </section>
+
+  <!-- AMBIENT SHOWREEL -->
+  <section class="showreel">
+    <video id="bgVideo" src="assets/howitworks.mp4" muted loop playsinline preload="metadata" aria-hidden="true" class="showreel-video"></video>
+    <div class="showreel-grad"></div>
+    <div class="reveal wrap showreel-content">
+      <span class="eyebrow eyebrow-accent"><span class="rule"></span>The room, in motion<span class="rule"></span></span>
+      <h2 class="showreel-h2">This is what a full house looks like.</h2>
+      <p class="showreel-p">Clubs at capacity. Restaurants booked solid. Brunch queues down the street. Keep scrolling — this is the outcome we sell.</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="process" class="process-section">
+    <div class="reveal wrap">
+      <span class="eyebrow eyebrow-accent"><span class="rule"></span>How it works</span>
+      <h2 class="h2-light">Scale <span class="sep">·</span> Adapt <span class="sep">·</span> Improve</h2>
+      <div class="steps-grid" id="stepsGrid"></div>
+    </div>
+  </section>
+
+  <!-- RESTAURANTS -->
+  <section class="split-section">
+    <div class="reveal wrap split-grid">
+      <div class="split-img split-img-accent">
+        <img src="assets/cs-restaurant.png" alt="A packed restaurant dining room">
+      </div>
+      <div>
+        <span class="eyebrow eyebrow-muted"><span class="rule"></span>Now serving restaurants</span>
+        <h2 class="h2-dark" style="max-width:16ch">Empty tables are lost revenue. We fill them.</h2>
+        <p class="body-dark" style="max-width:46ch;margin-bottom:24px">From bottomless brunch to a fully-booked Friday service, we run the same demand engine for restaurants that we do for nightlife — paid ads, mouth-watering content and a booking funnel that turns a scroll into a reservation.</p>
+        <ul class="check-list">
+          <li><span class="check">✓</span>Reservations and covers — not just followers</li>
+          <li><span class="check">✓</span>Content that sells the dish and the room</li>
+          <li><span class="check">✓</span>Brunch, launch and seasonal-menu campaigns</li>
+        </ul>
+        <a class="btn btn-accent" data-scroll="contact">Fill your tables <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7V16"></path></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDY -->
+  <section id="cases" class="case-section">
+    <div class="wrap">
+      <div class="reveal" style="margin-bottom:34px">
+        <span class="eyebrow eyebrow-accent"><span class="rule"></span>Selected work · Case study</span>
+        <h2 class="h2-light" style="margin-bottom:0">A room we filled.</h2>
+      </div>
+      <div class="reveal case-card">
+        <div class="case-grid">
+          <div class="case-img">
+            <img src="assets/cs-akbars.png" alt="Akbar's Glasgow">
+            <div class="case-img-overlay">
+              <span class="case-big">+62%</span>
+              <span class="case-big-label">Weeknight covers · 90 days</span>
+            </div>
+          </div>
+          <div class="case-body">
+            <div>
+              <div class="case-title">Akbar's Glasgow</div>
+              <div class="case-sub">Restaurant · Paid Ads + Marketing Strategy</div>
+            </div>
+            <div class="case-tags" id="caseTags"></div>
+            <p class="case-p">A Glasgow institution with a full menu but quiet midweek tables. We built a paid-ads engine and a local marketing strategy that turned empty Tuesdays into a waitlist — filling covers without discounting the brand.</p>
+            <div class="case-stats" id="caseStats"></div>
+            <button id="caseToggle" class="case-toggle" aria-expanded="false">
+              <span id="caseToggleLabel">Read the full breakdown</span>
+              <svg id="caseChevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div id="caseDeepWrap" class="case-deep-wrap">
+              <div class="case-deep-inner" id="caseDeep"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section">
+    <div class="reveal wrap">
+      <span class="eyebrow eyebrow-muted" style="margin-bottom:34px"><span class="rule"></span>What owners say</span>
+    </div>
+    <div class="testi-scroll noscroll" id="testiScroll"></div>
+  </section>
+
+  <!-- CONTACT / FORM -->
+  <section id="contact" class="contact-section">
+    <div class="reveal wrap contact-grid">
+      <div>
+        <span class="eyebrow eyebrow-accent"><span class="rule"></span>Book a strategy call</span>
+        <h2 class="contact-h2">Let's fill your room.</h2>
+        <p class="contact-p">Tell us about your venue. We'll come back within 24 hours with a free growth teardown and a plan to pack your nights — no obligation.</p>
+        <div class="contact-points">
+          <div><span class="diamond">◆</span> Reporting in plain numbers</div>
+          <div><span class="diamond">◆</span> Built for bars, clubs, restaurants &amp; events</div>
+        </div>
+      </div>
+      <div class="form-card">
+        <form id="bookingForm" novalidate>
+          <div class="form-row">
+            <label><span class="form-label">Your name<span class="req"> *</span></span><input name="name" required placeholder="Jordan Blake"></label>
+            <label><span class="form-label">Venue name<span class="req"> *</span></span><input name="venue" required placeholder="The Basement"></label>
+          </div>
+          <div class="form-row">
+            <label><span class="form-label">Email<span class="req"> *</span></span><input name="email" type="email" required placeholder="you@venue.com"></label>
+            <label><span class="form-label">Phone</span><input name="phone" type="tel" placeholder="+44 …"></label>
+          </div>
+          <div class="form-row">
+            <label><span class="form-label">Venue type</span><select name="venueType"><option>Nightclub</option><option>Bar / Cocktail bar</option><option>Restaurant</option><option>Events / Festival</option><option>Members club</option><option>Other</option></select></label>
+            <label><span class="form-label">Monthly ad budget</span><select name="budget"><option>Under £1k</option><option>£1k – £3k</option><option>£3k – £7k</option><option>£7k +</option><option>Not sure yet</option></select></label>
+          </div>
+          <label><span class="form-label">What are you trying to fill?</span><textarea name="message" placeholder="Thursday nights, a launch weekend, a bottomless brunch…"></textarea></label>
+          <div id="formError" class="form-error" hidden></div>
+          <button type="submit" id="formSubmit" class="btn btn-accent btn-block">Get my free teardown <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7V16"></path></svg></button>
+        </form>
+        <div id="formSuccess" class="form-success" hidden>
+          <span class="form-success-check"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"></path></svg></span>
+          <h3 class="form-success-h">You're in.</h3>
+          <p class="form-success-p">We've got your details. Expect your free growth teardown within 24 hours.</p>
+          <button id="formReset" class="btn-retake" style="border-color:#000;color:#000">Send another</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== ABOUT ===================== -->
+<main id="view-about" hidden>
+  <section class="about-hero">
+    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="about-hero-globe">
+    <div class="wrap" style="position:relative">
+      <span class="eyebrow eyebrow-accent anim-rise"><span class="rule"></span>About SAI Social</span>
+      <h1 class="about-h1">We don't sell impressions. We fill rooms.</h1>
+      <p class="about-hero-p">We're a performance marketing team built for hospitality and nightlife. Ads, content, and booking funnels engineered to one metric that matters: how many people walk through your door.</p>
+    </div>
+  </section>
+
+  <section class="split-section" style="padding:clamp(56px,8vw,110px) 0">
+    <div class="reveal wrap split-grid">
+      <div class="split-img">
+        <img src="assets/photo-bartender.png" alt="Behind the bar">
+      </div>
+      <div>
+        <span class="eyebrow eyebrow-muted"><span class="rule"></span>Our story</span>
+        <h2 class="h2-dark" style="font-size:clamp(1.8rem,4.4vw,3rem)">Built on the floor, not in a boardroom.</h2>
+        <p class="body-dark" style="margin-bottom:16px">SAI Social started because too many venues were paying agencies for "reach" and "engagement" while their Tuesdays stayed empty. We flipped the model: every campaign is judged on bodies, bookings and bar spend — nothing else.</p>
+        <p class="body-dark">Today we run the full growth stack for bars, clubs, restaurants and events — scaling what works, adapting fast, and improving every single week until the room is full.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section" style="padding:clamp(56px,8vw,110px) 0">
+    <div class="reveal wrap">
+      <span class="eyebrow eyebrow-accent"><span class="rule"></span>How we operate</span>
+      <h2 class="h2-light" style="font-size:clamp(1.8rem,4.4vw,3rem)">Scale · Adapt · Improve.</h2>
+      <div class="steps-grid" id="stepsGridAbout"></div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="reveal wrap">
+      <span class="eyebrow eyebrow-muted"><span class="rule"></span>The team</span>
+      <h2 class="h2-light" style="font-size:clamp(1.8rem,4.4vw,3rem)">Small team. Full rooms.</h2>
+      <div class="team-grid" id="teamGrid"></div>
+    </div>
+  </section>
+
+  <section class="about-cta">
+    <div class="reveal wrap about-cta-inner">
+      <h2 class="about-cta-h">Ready to pack your room?</h2>
+      <a class="btn btn-white" data-scroll="contact">Book a strategy call <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7V16"></path></svg></a>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== PRIVACY ===================== -->
+<main id="view-privacy" hidden>
+  <section class="about-hero" style="padding:clamp(80px,12vw,150px) 0 clamp(48px,6vw,80px)">
+    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="about-hero-globe" style="right:-180px;left:auto">
+    <div class="wrap-mid" style="position:relative">
+      <span class="eyebrow eyebrow-accent anim-rise"><span class="rule"></span>Legal</span>
+      <h1 class="about-h1" style="font-size:clamp(2.6rem,8vw,5.6rem)">Privacy Policy</h1>
+      <p class="privacy-updated">Last updated · Placeholder date</p>
+    </div>
+  </section>
+  <section class="privacy-body">
+    <div class="reveal wrap-text privacy-inner">
+      <p class="privacy-intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. This is placeholder copy — replace it with your finalised privacy policy before going live.</p>
+      <div id="privacySections"></div>
+      <div class="privacy-contact">
+        <div class="privacy-contact-label">Questions?</div>
+        <p>Lorem ipsum — for any questions about this policy, contact us at <span style="font-weight:700">privacy@saisocial.placeholder</span>.</p>
+      </div>
+      <a data-nav="home" class="btn btn-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg> Back to home</a>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <img src="assets/globe-white.png" alt="" aria-hidden="true" class="footer-globe">
+  <div class="wrap" style="position:relative">
+    <div class="footer-top">
+      <div style="max-width:34ch">
+        <img src="assets/logo-lockup-white-t.png" alt="SAI Social" class="footer-logo">
+        <p class="footer-tag">Scale · Adapt · Improve. Digital marketing that fills the room before the doors open.</p>
+      </div>
+      <div>
+        <div class="footer-col-h">Services</div>
+        <div class="footer-links">
+          <a class="nlink" data-scroll="services">Paid Ads</a>
+          <a class="nlink" data-scroll="services">Content &amp; Reels</a>
+          <a class="nlink" data-scroll="services">Websites &amp; Bookings</a>
+          <a class="nlink" data-scroll="services">Local SEO</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-h">Company</div>
+        <div class="footer-links">
+          <a class="nlink" data-nav="about">About</a>
+          <a class="nlink" data-scroll="cases">Work</a>
+          <a class="nlink" data-scroll="process">Process</a>
+          <a class="nlink" data-scroll="contact">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-h">Get in touch</div>
+        <a class="btn btn-ghost-light-sm" data-scroll="contact">Book a call</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SAI Social</span>
+      <a class="nlink" data-nav="privacy" style="cursor:pointer">Privacy Policy</a>
+      <span>Scale · Adapt · Improve</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
