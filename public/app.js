@@ -88,6 +88,7 @@
     closeMenu();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     runReveal();
+    if (typeof updateCta === 'function') updateCta();
   }
 
   function scrollToId(id) {
@@ -117,6 +118,32 @@
     mobileMenu.hidden = !open;
     burger.setAttribute('aria-expanded', String(open));
   });
+
+  /* ---------------------------------------------------- MOBILE STICKY CTA */
+  // Keeps a persistent "Book a strategy call" button on screen for mobile
+  // users. Appears once they scroll past the hero, and tucks away while the
+  // contact form itself is visible so it never covers the submit button.
+  const mobileCta = $('#mobileCta');
+  function updateCta() {
+    if (!mobileCta) return;
+    // Only relevant on the home view (the form lives here); hide elsewhere.
+    if (!views.home || views.home.hidden) { mobileCta.classList.remove('show'); return; }
+    const scrolledPastHero = window.scrollY > window.innerHeight * 0.6;
+    const contact = document.getElementById('contact');
+    let contactVisible = false;
+    if (contact) {
+      const r = contact.getBoundingClientRect();
+      contactVisible = r.top < window.innerHeight * 0.85 && r.bottom > 0;
+    }
+    mobileCta.classList.toggle('show', scrolledPastHero && !contactVisible);
+  }
+  let ctaTick = false;
+  window.addEventListener('scroll', () => {
+    if (ctaTick) return;
+    ctaTick = true;
+    requestAnimationFrame(() => { updateCta(); ctaTick = false; });
+  }, { passive: true });
+  window.addEventListener('resize', updateCta, { passive: true });
 
   /* ------------------------------------------------------------------ RENDER */
   // Stats
@@ -346,4 +373,7 @@
   });
 
   function showError(msg) { errorBox.textContent = msg; errorBox.hidden = false; }
+
+  // Set the sticky CTA to its correct initial state on load.
+  updateCta();
 })();
