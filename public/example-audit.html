@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<title>Example: Free In-Depth Marketing Audit — SAI Social</title>
+<meta name="description" content="A real example of the free, in-depth marketing audit SAI Social builds for venues when you book a strategy call — a channel-by-channel review of social, content, website, SEO and paid ads.">
+<link rel="icon" href="assets/logo-mark-white-t.png">
+
+<!-- SAI Social top bar (added wrapper — the audit content below is a copy) -->
+<style>
+  .sai-bar{position:sticky;top:0;z-index:50;background:#000;color:#fff;border-bottom:2px solid #0F3DFF;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    padding:12px clamp(16px,4vw,40px);font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace}
+  .sai-bar-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .sai-bar img{height:22px;display:block}
+  .sai-bar .tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:#0F3DFF;border:1.5px solid #0F3DFF;border-radius:100px;padding:4px 10px}
+  .sai-bar a{color:#fff;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .sai-bar-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .sai-bar .book{background:#0F3DFF;border:2px solid #000;box-shadow:3px 3px 0 #fff;padding:9px 14px;color:#fff}
+  .sai-bar .book:hover{background:#0A2ECC}
+</style>
+</head>
+<body>
+
+<div class="sai-bar">
+  <div class="sai-bar-left">
+    <a href="/" aria-label="SAI Social — home"><img src="assets/logo-lockup-white-t.png" alt="SAI Social"></a>
+    <span class="tag">Example audit</span>
+  </div>
+  <div class="sai-bar-right">
+    <a href="/">&larr; Back to SAI Social</a>
+    <a href="/" class="book">Book your free audit</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     Illustrative example audit. The subject business, competitors,
+     creators and figures below are fictionalised/anonymised — this
+     is a format sample, not a real client report.
+     ============================================================ -->
+<style>
+  :root{
+    --paper: #f2eee2;
+    --paper-raised: #fbf9f3;
+    --ink: #221c14;
+    --ink-secondary: #5b5041;
+    --ink-muted: #8a7f6b;
+    --line: #ddd5c0;
+    --line-strong: #c7bc9f;
+    --accent: #b8791a;
+    --accent-ink: #ffffff;
+    --accent-soft: #eddcb8;
+    --teal: #0086a3;
+    --plum: #a13d78;
+    --critical: #a3311f;
+    --critical-soft: #f1ded9;
+    --good: #4c7a3d;
+    --good-soft: #dfe9d5;
+    --shadow: 0 1px 2px rgba(34,28,20,0.06), 0 8px 24px -12px rgba(34,28,20,0.18);
+    --radius: 3px;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper: #18140f;
+      --paper-raised: #221c15;
+      --ink: #f1ead9;
+      --ink-secondary: #c4b8a0;
+      --ink-muted: #8f8168;
+      --line: #382f22;
+      --line-strong: #4a4030;
+      --accent: #d99a2b;
+      --accent-ink: #1a1409;
+      --accent-soft: #3d2e14;
+      --teal: #1a97b0;
+      --plum: #b8578a;
+      --critical: #d9503b;
+      --critical-soft: #3a1f19;
+      --good: #7fa869;
+      --good-soft: #24301c;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper: #18140f;
+    --paper-raised: #221c15;
+    --ink: #f1ead9;
+    --ink-secondary: #c4b8a0;
+    --ink-muted: #8f8168;
+    --line: #382f22;
+    --line-strong: #4a4030;
+    --accent: #d99a2b;
+    --accent-ink: #1a1409;
+    --accent-soft: #3d2e14;
+    --teal: #1a97b0;
+    --plum: #b8578a;
+    --critical: #d9503b;
+    --critical-soft: #3a1f19;
+    --good: #7fa869;
+    --good-soft: #24301c;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 28px -12px rgba(0,0,0,0.5);
+  }
+  :root[data-theme="light"]{
+    --paper: #f2eee2;
+    --paper-raised: #fbf9f3;
+    --ink: #221c14;
+    --ink-secondary: #5b5041;
+    --ink-muted: #8a7f6b;
+    --line: #ddd5c0;
+    --line-strong: #c7bc9f;
+    --accent: #b8791a;
+    --accent-ink: #ffffff;
+    --accent-soft: #eddcb8;
+    --teal: #0086a3;
+    --plum: #a13d78;
+    --critical: #a3311f;
+    --critical-soft: #f1ded9;
+    --good: #4c7a3d;
+    --good-soft: #dfe9d5;
+    --shadow: 0 1px 2px rgba(34,28,20,0.06), 0 8px 24px -12px rgba(34,28,20,0.18);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family: ui-sans-serif, "Segoe UI", "Public Sans", -apple-system, Helvetica, Arial, sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-soft); color:var(--ink);}
+
+  .display{
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    letter-spacing:-0.01em;
+    text-wrap:balance;
+  }
+
+  a{color:var(--accent);}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  .wrap{max-width:920px; margin:0 auto; padding: 0 28px 120px;}
+
+  /* ---------- Cover ---------- */
+  .cover{
+    border-bottom:1px solid var(--line);
+    padding: 64px 0 40px;
+  }
+  .eyebrow{
+    font-size:12.5px; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--accent); font-weight:700; margin:0 0 18px;
+  }
+  .cover h1{
+    font-size:clamp(34px, 5vw, 52px);
+    line-height:1.05;
+    margin:0 0 14px;
+    font-weight:600;
+  }
+  .cover .sub{
+    font-size:18px; color:var(--ink-secondary); max-width:60ch; margin:0 0 28px;
+  }
+  .cover-meta{
+    display:flex; flex-wrap:wrap; gap:28px 40px;
+    padding-top:22px; border-top:1px solid var(--line);
+  }
+  .cover-meta div{display:flex; flex-direction:column; gap:3px;}
+  .cover-meta .k{font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-muted);}
+  .cover-meta .v{font-size:15px; font-variant-numeric:tabular-nums; font-weight:600;}
+
+  /* ---------- Section scaffolding ---------- */
+  section.block{ padding: 56px 0; border-bottom:1px solid var(--line); }
+  section.block:last-of-type{border-bottom:none;}
+  .block-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:8px; }
+  .block-num{ font-family: Georgia, serif; font-size:15px; color:var(--accent); font-weight:700; }
+  .block-head h2{ font-size:28px; margin:0; font-weight:600; }
+  .block-dek{ color:var(--ink-secondary); font-size:16px; max-width:66ch; margin: 6px 0 32px; }
+
+  h3.sub-head{ font-size:17px; margin: 36px 0 12px; font-weight:700; }
+  p{margin: 0 0 14px; max-width:70ch;}
+  ul.findings{ margin:0 0 14px; padding-left:0; list-style:none; max-width:74ch; }
+  ul.findings li{ position:relative; padding-left:20px; margin-bottom:10px; }
+  ul.findings li::before{ content:"–"; position:absolute; left:0; color:var(--accent); font-weight:700; }
+
+  /* ---------- Executive summary tiles ---------- */
+  .tiles{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin: 28px 0; }
+  .tile{
+    background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius);
+    padding:18px 18px 16px; box-shadow:var(--shadow);
+  }
+  .tile .stat{ font-size:30px; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.1; }
+  .tile .stat.critical{ color:var(--critical); }
+  .tile .stat.accent{ color:var(--accent); }
+  .tile .label{ font-size:13px; color:var(--ink-secondary); margin-top:6px; }
+
+  /* ---------- Pills / status ---------- */
+  .pill{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12px; font-weight:700; padding:3px 9px; border-radius:100px;
+    text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .pill.critical{ background:var(--critical-soft); color:var(--critical); }
+  .pill.good{ background:var(--good-soft); color:var(--good); }
+  .pill.neutral{ background:var(--accent-soft); color:var(--accent); }
+
+  /* ---------- Callout ---------- */
+  .callout{
+    background:var(--paper-raised); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:var(--radius); padding:18px 20px; margin: 18px 0 24px; box-shadow:var(--shadow);
+  }
+  .callout.critical{ border-left-color:var(--critical); }
+  .callout p:last-child{margin-bottom:0;}
+  .callout .cal-label{ font-size:12px; text-transform:uppercase; letter-spacing:0.08em; font-weight:700; color:var(--accent); margin-bottom:8px; }
+  .callout.critical .cal-label{color:var(--critical);}
+
+  /* ---------- Tables ---------- */
+  .table-scroll{ overflow-x:auto; margin: 18px 0 26px; border:1px solid var(--line); border-radius:var(--radius); }
+  table{ border-collapse:collapse; width:100%; min-width:640px; font-size:14px; background:var(--paper-raised); }
+  th, td{ text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th{ font-size:11.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-muted); font-weight:700; background:var(--paper); }
+  tbody tr:last-child td{border-bottom:none;}
+  td.num, th.num{ font-variant-numeric:tabular-nums; text-align:right; }
+  td.wrap-cell{white-space:normal; max-width:280px;}
+
+  /* ---------- Bar chart (plain HTML) ---------- */
+  .chart{ margin: 22px 0 30px; }
+  .chart-title{ font-size:13px; font-weight:700; color:var(--ink-secondary); margin-bottom:2px; }
+  .chart-note{ font-size:12.5px; color:var(--ink-muted); margin-bottom:16px; }
+  .bar-row{ display:grid; grid-template-columns:130px 1fr 90px; align-items:center; gap:12px; margin-bottom:10px; }
+  .bar-row .name{ font-size:13.5px; font-weight:600; text-align:right; }
+  .bar-track{ background:var(--line); border-radius:2px; height:18px; overflow:hidden; position:relative; }
+  .bar-fill{ height:100%; border-radius:2px; min-width:6px; }
+  .bar-row .val{ font-size:13.5px; font-variant-numeric:tabular-nums; font-weight:700; }
+  .legend{ display:flex; gap:18px; margin-top:4px; flex-wrap:wrap; }
+  .legend-item{ display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--ink-secondary); }
+  .legend-swatch{ width:10px; height:10px; border-radius:2px; flex:none; }
+
+  .rating-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px 20px; margin:18px 0 26px; }
+  .rating-row{ display:flex; align-items:center; gap:10px; }
+  .rating-row .rname{ font-size:13px; font-weight:600; width:104px; flex:none; }
+  .rating-track{ flex:1; background:var(--line); border-radius:2px; height:8px; overflow:hidden; }
+  .rating-fill{ height:100%; background:var(--accent); border-radius:2px; }
+  .rating-row .rval{ font-size:12.5px; font-variant-numeric:tabular-nums; color:var(--ink-secondary); width:34px; flex:none; text-align:right; }
+
+  /* ---------- Two-col grid ---------- */
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:28px; margin: 18px 0; }
+  @media (max-width:680px){ .grid2, .tiles, .rating-grid{ grid-template-columns:1fr; } .bar-row{grid-template-columns:96px 1fr 70px;} }
+
+  .stat-inline{ display:flex; gap:28px; flex-wrap:wrap; margin:20px 0 8px; }
+  .stat-inline .si{ min-width:130px; }
+  .stat-inline .si .n{ font-size:26px; font-weight:700; font-variant-numeric:tabular-nums; }
+  .stat-inline .si .l{ font-size:12.5px; color:var(--ink-muted); }
+
+  /* ---------- Closing ---------- */
+  .closing{ padding: 60px 0 20px; }
+  .closing h2{ font-size:26px; margin:0 0 14px; }
+  .rec-list{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin: 22px 0 30px; }
+  .rec-card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow); }
+  .rec-card .rc-num{ font-size:12px; color:var(--accent); font-weight:700; margin-bottom:6px; }
+  .rec-card h4{ margin:0 0 6px; font-size:15px; }
+  .rec-card p{ margin:0; font-size:13.5px; color:var(--ink-secondary); }
+  @media (max-width:680px){ .rec-list{grid-template-columns:1fr;} }
+
+  .foot-note{ font-size:12.5px; color:var(--ink-muted); border-top:1px solid var(--line); padding-top:20px; margin-top:12px; }
+  .foot-note p{max-width:none;}
+</style>
+
+<div class="wrap">
+
+  <header class="cover">
+    <p class="eyebrow">Marketing Audit — Illustrative Example</p>
+    <h1 class="display">Spice Trail Restaurants<br>Marketing Audit</h1>
+    <p class="sub">A channel-by-channel review of social, short-form video, website/SEO, and paid search — built to identify the gap between a strong underlying reputation and a weak marketing footprint. Business name, figures and third parties in this example are fictionalised to illustrate our audit format.</p>
+    <div class="cover-meta">
+      <div><span class="k">Subject</span><span class="v">Spice Trail Restaurants (UK) — illustrative</span></div>
+      <div><span class="k">Footprint</span><span class="v">9 locations, nationwide</span></div>
+      <div><span class="k">Founded</span><span class="v">1994, Bradford</span></div>
+      <div><span class="k">Prepared</span><span class="v">9 July 2026</span></div>
+    </div>
+  </header>
+
+  <!-- Executive Summary -->
+  <section class="block">
+    <div class="block-head"><span class="block-num">00</span><h2>Executive Summary</h2></div>
+    <p class="block-dek">Spice Trail has a genuinely strong foundation — a 30-year brand, a famous flagship, solid review scores, and organic viral moments it didn't even have to pay for. Almost none of it is being converted into a working marketing system. The gap below is the opportunity.</p>
+
+    <div class="tiles">
+      <div class="tile">
+        <div class="stat critical">34×</div>
+        <div class="label">Instagram follower gap vs. a comparable challenger chain (7.3K vs. 252K) — for a longer-established brand</div>
+      </div>
+      <div class="tile">
+        <div class="stat critical">£0</div>
+        <div class="label">Detectable Google Ads spend — no ad presence found on any high-intent local search</div>
+      </div>
+      <div class="tile">
+        <div class="stat critical">0 / 9</div>
+        <div class="label">Branches with a dedicated, SEO-optimised city landing page</div>
+      </div>
+      <div class="tile">
+        <div class="stat accent">120.8K</div>
+        <div class="label">Likes on one third-party creator video about the Bradford flagship — never reposted or amplified by the brand</div>
+      </div>
+      <div class="tile">
+        <div class="stat critical">Absent</div>
+        <div class="label">From "best curry house Bradford" search results — in the city Spice Trail was founded in</div>
+      </div>
+      <div class="tile">
+        <div class="stat accent">4.1–4.4★</div>
+        <div class="label">Underlying review scores across most branches — the product is earning trust marketing isn't capturing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Social Media -->
+  <section class="block">
+    <div class="block-head"><span class="block-num">01</span><h2>Social Media Marketing</h2></div>
+    <p class="block-dek">Presence exists on every major platform, but it's fragmented across national and per-branch accounts with no consolidation strategy — splitting followers, engagement, and search equity across a dozen loosely-run pages instead of one strong hub.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Platform</th><th>Account</th><th class="num">Followers</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Instagram</td><td>@spicetrail.restaurants (national)</td><td class="num">~7,347</td><td>867 posts; low follow-through for the volume posted</td></tr>
+          <tr><td>Instagram</td><td>@spicetrail_newcastle</td><td class="num">~1,564</td><td>Duplicate branch account</td></tr>
+          <tr><td>Instagram</td><td>@spicetrailglasgow</td><td class="num">~1,833</td><td>Duplicate branch account</td></tr>
+          <tr><td>Instagram</td><td>@spicetrailcafe (Bradford)</td><td class="num">~1,775</td><td>Third parallel Bradford presence</td></tr>
+          <tr><td>Facebook</td><td>"Official Spice Trail Fan Page" (founder-run)</td><td class="num">~12,133</td><td>Founder-named, not a scalable corporate page</td></tr>
+          <tr><td>Facebook</td><td>Birmingham branch page</td><td class="num">~5,000</td><td>2,950 reviews, 76% recommend</td></tr>
+          <tr><td>Facebook</td><td>Glasgow branch page</td><td class="num">361</td><td>Effectively dormant</td></tr>
+          <tr><td>TikTok</td><td>@spicetrailuk ("Spice Trail Bradford")</td><td class="num">~11.1K</td><td>153.3K total likes; most contemporary channel</td></tr>
+          <tr><td>X / Twitter</td><td>No active branded account</td><td class="num">—</td><td>Founder's personal handle only</td></tr>
+          <tr><td>YouTube</td><td>@spicetrailrestaurants</td><td class="num">Low / unindexed</td><td>Exists but effectively dormant</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart">
+      <div class="chart-title">Instagram following vs. UK curry/Indian-dining comparators (anonymised)</div>
+      <div class="chart-note">Linear scale, intentionally — the bar lengths are the point.</div>
+      <div class="bar-row">
+        <div class="name">Spice Trail</div>
+        <div class="bar-track"><div class="bar-fill" style="width:2%; background:var(--accent);"></div></div>
+        <div class="val">7,347</div>
+      </div>
+      <div class="bar-row">
+        <div class="name">Comparator A (challenger)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:69%; background:var(--teal);"></div></div>
+        <div class="val">252,000</div>
+      </div>
+      <div class="bar-row">
+        <div class="name">Comparator B (market leader)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%; background:var(--plum);"></div></div>
+        <div class="val">364,000</div>
+      </div>
+    </div>
+
+    <h3 class="sub-head">What's working</h3>
+    <ul class="findings">
+      <li>Underlying review base is strong: 4.4/5 on a major review aggregator (8,826 reviews), ~1,800 reviews for the Bradford flagship on another.</li>
+      <li>TikTok is the most modern channel in the mix — current hashtag use, a founder video, a "10 restaurants nationwide" push — proof the team can execute contemporary content when it tries.</li>
+      <li>A consistent, ownable tagline is already recognised across what accounts do exist.</li>
+    </ul>
+
+    <h3 class="sub-head">Gaps</h3>
+    <ul class="findings">
+      <li>At least 6–8 separate branch-level accounts across Instagram, Facebook and TikTok with no unified handle convention, confusing customers about which account to follow.</li>
+      <li>Facebook's flagship page is branded around the founder personally rather than the restaurant brand — a legacy choice that doesn't scale across 9 locations.</li>
+      <li>No active, branded X/Twitter presence at all — a full platform gap.</li>
+      <li>YouTube channel exists but is dormant — wasted long-form space for kitchen, heritage and founder-story content.</li>
+      <li>867 Instagram posts have produced only ~7,300 followers — a conversion problem, not a volume problem.</li>
+      <li>Review response management is inconsistent branch-to-branch, with no evidence of a brand-wide standard.</li>
+    </ul>
+  </section>
+
+  <!-- 2. Short-form content -->
+  <section class="block">
+    <div class="block-head"><span class="block-num">02</span><h2>Short-Form Content Performance</h2></div>
+    <p class="block-dek">The clearest finding in this whole audit: Spice Trail is already going viral — just never through its own accounts.</p>
+
+    <div class="callout">
+      <div class="cal-label">The standout data point</div>
+      <p>A food creator account (2.6M TikTok followers) posted a "Bradford Curry King?" style review and pulled an estimated <strong>120.8K likes and 1,617 comments</strong> — with zero paid promotion from Spice Trail. Two further mid-tier creators have separately covered the Bradford branch. There is no evidence Spice Trail has ever reposted, duetted, credited, or partnered with any of them.</p>
+    </div>
+
+    <div class="stat-inline">
+      <div class="si"><div class="n">11.1K</div><div class="l">TikTok followers (national account)</div></div>
+      <div class="si"><div class="n">153.3K</div><div class="l">Total TikTok likes accumulated</div></div>
+      <div class="si"><div class="n">~200–900</div><div class="l">Typical likes per own-brand video</div></div>
+      <div class="si"><div class="n">7.3K</div><div class="l">Instagram followers (Reels included)</div></div>
+    </div>
+
+    <h3 class="sub-head">Gaps</h3>
+    <ul class="findings">
+      <li>Own-brand TikTok content is agency-generic: hashtag-stuffed captions, stock-style food shots, no repeatable format.</li>
+      <li>Zero ASMR, POV, staff-personality, or behind-the-scenes kitchen content — exactly the formats currently working across UK curry-house TikTok.</li>
+      <li>No consistent on-camera personality, despite the founder being a genuinely charismatic, press-covered figure whose story was never systematically turned into short-form content.</li>
+      <li>Posting is irregular and campaign-driven (a new-opening post, a Christmas booking post) rather than a weekly content system.</li>
+      <li>No influencer or creator partnership strategy, despite multiple creators with six/seven-figure followings organically covering the brand for free.</li>
+      <li>YouTube Shorts channel is effectively unused — a free, already-owned distribution channel sitting idle.</li>
+    </ul>
+
+    <h3 class="sub-head">What's working / ownable</h3>
+    <ul class="findings">
+      <li>A distinctive, inherently shareable physical hook already exists in-restaurant (a signature in-store visual) — the kind of asset short-form video is built around.</li>
+      <li>Genuine, press-worthy brand story: 30-year history, Bradford origin, national expansion, a widely covered founder legacy.</li>
+      <li>Proof of organic demand for branded content already exists at six-figure engagement — the audience is there and actively looking.</li>
+    </ul>
+  </section>
+
+  <!-- 3. Website & SEO -->
+  <section class="block">
+    <div class="block-head"><span class="block-num">03</span><h2>Website &amp; SEO</h2></div>
+    <p class="block-dek">The website is a WordPress site carrying legacy technical patterns that actively suppress its search visibility — most damagingly, the absence of individually optimised pages for each of its 9 locations.</p>
+
+    <h3 class="sub-head">Technical &amp; on-page findings</h3>
+    <ul class="findings">
+      <li>Menus are served as static PDFs, not crawlable HTML — poor mobile UX, no dish-level indexing, and no eligibility for Google's rich menu results.</li>
+      <li>No dedicated landing page per branch. Nine cities are served by a generic <em>/restaurants</em> hub plus a handful of menu-only subpages — search equity that should belong to city-specific brand queries has nowhere to land.</li>
+      <li>No restaurant schema markup detected (Menu, Review, AggregateRating, OpeningHours) — competitors' star ratings can surface directly in search; Spice Trail currently can't.</li>
+      <li>No blog or content hub, despite a founder story with genuine national press coverage.</li>
+      <li>The live site returned 403 to automated access repeatedly during this audit — worth a direct technical check of hosting/WAF configuration and page speed.</li>
+    </ul>
+
+    <h3 class="sub-head">Search visibility — the starkest single finding</h3>
+    <div class="callout critical">
+      <div class="cal-label">Missing from its own city</div>
+      <p>Searching <strong>"best curry house Bradford"</strong> surfaces five well-established local independents (names anonymised for this example). <strong>Spice Trail does not appear</strong> — despite being founded in Bradford and operating its flagship there. A similar search for a second home-market city surfaces four other independents — again, no Spice Trail. Non-branded, high-intent discovery searches are currently being won entirely by competitors.</p>
+    </div>
+
+    <h3 class="sub-head">Branch-by-branch signal</h3>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Branch</th><th>Approx. rating</th><th>Review signal</th><th>Dedicated SEO page</th></tr></thead>
+        <tbody>
+          <tr><td>Bradford (flagship)</td><td>4.4★ (8,826 reviews)</td><td>Strong volume, under-optimised on Google itself</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Leeds</td><td>~4.2★</td><td>Reviews split across two listings</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Manchester</td><td>~4.1★</td><td>Strong qualitative sentiment</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Birmingham</td><td>3.9★ (3,336 reviews)</td><td>Cleanliness/service complaints recurring</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Glasgow</td><td>~4.2★</td><td>Isolated but recurring service complaints</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Sheffield</td><td>~4.3★</td><td>Generally strong</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Rotherham</td><td>Positive legacy reviews</td><td>Recent "shrinking portions, rising prices" complaints</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Middlesbrough</td><td>Positive legacy reviews</td><td>Same portion/price complaint pattern</td><td class="wrap-cell">No</td></tr>
+          <tr><td>Newcastle</td><td>Menu subpage only, no rating surfaced</td><td>Own IG/FB pages, thin footprint</td><td class="wrap-cell">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rating-grid">
+      <div class="rating-row"><span class="rname">Bradford</span><div class="rating-track"><div class="rating-fill" style="width:88%;"></div></div><span class="rval">4.4</span></div>
+      <div class="rating-row"><span class="rname">Sheffield</span><div class="rating-track"><div class="rating-fill" style="width:86%;"></div></div><span class="rval">4.3</span></div>
+      <div class="rating-row"><span class="rname">Leeds</span><div class="rating-track"><div class="rating-fill" style="width:84%;"></div></div><span class="rval">4.2</span></div>
+      <div class="rating-row"><span class="rname">Glasgow</span><div class="rating-track"><div class="rating-fill" style="width:84%;"></div></div><span class="rval">4.2</span></div>
+      <div class="rating-row"><span class="rname">Manchester</span><div class="rating-track"><div class="rating-fill" style="width:82%;"></div></div><span class="rval">4.1</span></div>
+      <div class="rating-row"><span class="rname">Birmingham</span><div class="rating-track"><div class="rating-fill" style="width:78%;"></div></div><span class="rval">3.9</span></div>
+    </div>
+
+    <h3 class="sub-head">Additional gaps</h3>
+    <ul class="findings">
+      <li>Branded search for the restaurant's name is polluted by unrelated namesake restaurants abroad — brand search isn't fully owned even for a 30-year, 9-location UK chain.</li>
+      <li>Existing press coverage is almost entirely reactive — tied to occasional newsworthy moments — rather than a sustained PR or content pipeline building authoritative backlinks over time.</li>
+    </ul>
+  </section>
+
+  <!-- 4. Google Advertising -->
+  <section class="block">
+    <div class="block-head"><span class="block-num">04</span><h2>Google Advertising</h2></div>
+    <p class="block-dek">Two independent checks of Google's Ads Transparency Center for the brand's domain returned no advertiser record and no ad creatives. Combined with the absence of sponsored results on commercial-intent searches, the evidence points to one conclusion: Spice Trail is not contesting paid search at all.</p>
+
+    <div class="callout critical">
+      <div class="cal-label">Zero detectable paid presence</div>
+      <p>No Google Ads Transparency Center record for the domain. No sponsored placements found on "curry house Bradford," "book Indian restaurant Manchester," or comparable high-intent local queries. No PPC agency, campaign, or case-study footprint discoverable anywhere online. Spice Trail appears to rely <strong>100% on organic search and Google Business Profile listings</strong> — leaving every "near me" and city-specific paid search auction uncontested.</p>
+    </div>
+
+    <h3 class="sub-head">Delivery &amp; booking infrastructure</h3>
+    <ul class="findings">
+      <li>Delivery marketplace presence confirmed for two branches; coverage for the flagship could not be confirmed, and one customer review explicitly flagged the lack of online ordering at Bradford.</li>
+      <li>No modern reservation-platform integration found — a gap versus comparable multi-site competitors who run integrated booking widgets that double as discovery touchpoints.</li>
+      <li>No evidence of paid "featured" placement on any delivery platform, despite competitors likely bidding for that visibility in the same cities.</li>
+    </ul>
+
+    <h3 class="sub-head">Why this matters</h3>
+    <p>Restaurant-category paid search is one of the <strong>cheapest advertising categories in the UK</strong> to compete in — CPCs of roughly £0.15–£1.50 and a category-average ROAS near 6:1. Spice Trail's footprint (Bradford, Leeds, Manchester, Sheffield, Glasgow, Newcastle) sits mostly outside the higher-CPC London market, meaning the cost of entry to finally contest these searches is comparatively low relative to the category's return.</p>
+  </section>
+
+  <!-- 5. Benchmarks -->
+  <section class="block">
+    <div class="block-head"><span class="block-num">05</span><h2>Performance Benchmarks &amp; Opportunity Sizing</h2></div>
+    <p class="block-dek">Placing Spice Trail's current position against UK restaurant-industry benchmarks makes the size of the opportunity concrete, not just directional.</p>
+
+    <div class="chart">
+      <div class="chart-title">Social engagement rate: estimated current vs. category target</div>
+      <div class="chart-note">Food &amp; beverage brands running consistent, current-format content commonly reach 2.0–2.5%.</div>
+      <div class="bar-row">
+        <div class="name">Spice Trail (est.)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:16%; background:var(--critical);"></div></div>
+        <div class="val">~0.4%</div>
+      </div>
+      <div class="bar-row">
+        <div class="name">Category target</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%; background:var(--accent);"></div></div>
+        <div class="val">2.0–2.5%</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <h3 class="sub-head">Revenue impact of fixing this</h3>
+        <ul class="findings">
+          <li>Restaurants running an active, consistent social strategy see an average <strong>9.9% lift in direct revenue</strong> attributable to social.</li>
+          <li>One documented case: consistent posting plus upgraded food photography over 90 days took a comparable operation from £45K to £63K monthly revenue — a <strong>40% increase</strong> — while cutting marketing spend.</li>
+          <li>Local SEO investment has produced <strong>+160% organic traffic within 3 months</strong> for a comparable restaurant group; the Google Local 3-Pack alone captures <strong>44% of all clicks</strong> on local restaurant searches.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub-head">Why now</h3>
+        <ul class="findings">
+          <li><strong>45% of UK diners</strong> now discover new restaurants via social media; among Gen Z, <strong>38% of discovery happens on TikTok specifically</strong>, and 58% of TikTok users have visited or ordered after seeing a restaurant there.</li>
+          <li><strong>64% of UK diners</strong> tried a new restaurant in the past month, up from 39% in 2024 — the acquisition opportunity is actively widening.</li>
+          <li><strong>87% of UK consumers</strong> read reviews before choosing a local restaurant — Spice Trail's underlying ratings are already good enough to convert, if visibility catches up.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub-head">Review volume benchmark</h3>
+    <p>Well-performing UK restaurant chains average around <strong>250 Google reviews per location</strong> and generate roughly <strong>9+ new reviews per branch, per month</strong>. Top-3 local-pack rankings average 47 reviews versus 38 for positions 7–10 — review volume is itself a ranking lever, not just a trust signal. Several branches (Birmingham, Rotherham, Middlesbrough) show recent complaint clusters that, left unmanaged, actively work against this.</p>
+  </section>
+
+  <!-- Closing -->
+  <section class="closing">
+    <h2 class="display">Where this leaves Spice Trail</h2>
+    <p>Every section of this audit lands on the same underlying story: <strong>the brand and the product are not the problem.</strong> A 30-year reputation, review scores in the 4.1–4.4 range, and organic six-figure creator engagement are all evidence of real demand. What's missing is the infrastructure to capture it — consolidated social accounts, a short-form content system built around assets the brand already owns, city-level SEO pages, and a first paid search presence in a category that's cheap to compete in.</p>
+
+    <div class="rec-list">
+      <div class="rec-card">
+        <div class="rc-num">Priority</div>
+        <h4>Consolidate the account structure</h4>
+        <p>Retire duplicate branch accounts into one national hub with location tagging, so followers, reviews and content quality compound instead of fragmenting.</p>
+      </div>
+      <div class="rec-card">
+        <div class="rc-num">Priority</div>
+        <h4>Build 9 real location pages</h4>
+        <p>Give every branch a dedicated, schema-marked landing page — the single highest-leverage SEO fix available.</p>
+      </div>
+      <div class="rec-card">
+        <div class="rc-num">Priority</div>
+        <h4>Systemise short-form content</h4>
+        <p>A weekly format built around the signature in-store hook, the kitchen, and staff personality — with a creator outreach plan for the influencers already covering the brand for free.</p>
+      </div>
+      <div class="rec-card">
+        <div class="rc-num">Priority</div>
+        <h4>Open a first paid search test</h4>
+        <p>Low-CPC market, zero current competition from the brand's own bids — a fast, measurable place to prove marketing ROI early.</p>
+      </div>
+    </div>
+
+    <div class="foot-note">
+      <p>Note: this is an illustrative example built to show the format and depth of the free in-depth audit we prepare after a strategy call. The subject business, competitors, creator accounts, press outlets and specific figures above are fictionalised/anonymised and do not describe a real company. A real audit is compiled from your venue's own publicly visible platform data, search-engine snapshots, Google's Ads Transparency Center, and published UK industry benchmark reports.</p>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

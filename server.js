@@ -101,6 +101,12 @@ Object.keys(ROUTES).forEach((routePath) => {
   });
 });
 
+// Example audit — a standalone sample page (copy of the Akbar's audit artifact)
+// linked from the "See an example" button on the free-audit offer band.
+app.get('/example-audit', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'example-audit.html'));
+});
+
 // robots.txt — allow everyone, explicitly welcome AI answer-engine crawlers so
 // we're eligible to be cited, and point to the sitemap. Served dynamically so
 // the Sitemap URL always matches SITE_ORIGIN.

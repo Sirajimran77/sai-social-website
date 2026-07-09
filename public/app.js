@@ -16,10 +16,10 @@
   ];
 
   const stats = [
-    { v: '+240%', l: 'Avg. increase in bookings' },
-    { v: '3.2M', l: 'Local impressions / month' },
+    { v: '+64%', l: 'Avg. increase in bookings' },
+    { v: '1.1M', l: 'Local impressions / month' },
     { v: '18', l: 'Sold-out nights delivered' },
-    { v: '4.8×', l: 'Return on ad spend' },
+    { v: '3.6×', l: 'Return on ad spend' },
   ];
 
   const steps = [
@@ -30,15 +30,15 @@
 
   const akbarTags = ['Meta Paid Ads', 'Google Ads', 'Marketing Strategy', 'Local SEO'];
   const akbarStats = [
-    { v: '+62%', l: 'Weeknight covers' },
+    { v: '+48%', l: 'Weeknight covers' },
     { v: '3.1×', l: 'Return on ad spend' },
-    { v: '−34%', l: 'Cost per booking' },
+    { v: '−29%', l: 'Cost per booking' },
   ];
   const akbarDeepDive = [
     { k: 'The challenge', h: 'Full at weekends, quiet midweek', body: "Akbar's is a well-known Glasgow name with strong Friday and Saturday trade, but Monday-to-Thursday tables sat empty. They were relying on reputation and word of mouth, with no paid acquisition and no clear picture of what was actually driving bookings." },
     { k: 'The strategy', h: 'A local demand engine, not just ads', body: "We built a full marketing strategy around midweek demand: mapping the catchment, the competitor set and the moments locals decide where to eat. We positioned Akbar's around specific occasions — after-work dinners, family midweek meals and set-menu value — instead of generic \"come in\" messaging." },
     { k: 'The execution', h: 'Paid ads wired to real bookings', body: "We ran geo-targeted Meta and Google campaigns to a tight radius around the restaurant, with creative built from real food and room footage. Every campaign fed a tracked booking funnel, so we could see cost per cover night by night and shift budget toward the offers and audiences that filled tables." },
-    { k: 'The result', h: '+62% midweek covers in 90 days', body: "Within three months weeknight covers were up 62%, return on ad spend held at 3.1×, and cost per booking dropped 34% as we optimised. Akbar's now has a repeatable, measurable channel filling the nights that used to sit quiet — without discounting the brand." },
+    { k: 'The result', h: '+48% midweek covers in 90 days', body: "Within three months weeknight covers were up 48%, return on ad spend held at 3.1×, and cost per booking dropped 29% as we optimised. Akbar's now has a repeatable, measurable channel filling the nights that used to sit quiet — without discounting the brand." },
   ];
 
   const testimonials = [
@@ -80,8 +80,8 @@
     { q: "How does SAI Social get more people through my venue's doors?", a: "We build a demand engine around your venue: geo-targeted paid ads, scroll-stopping content and a tracked booking funnel. Every campaign is judged on one metric — bodies through the door — so budget flows to whatever actually fills the room, night by night." },
     { q: 'Which venues does SAI Social work with?', a: "We work with UK hospitality and nightlife: bars, cocktail bars, nightclubs, restaurants, members' clubs and events or festivals. If success looks like a full room, full tables or a sold-out night, we can help." },
     { q: 'How much does SAI Social cost?', a: 'We work on monthly retainers across three tiers: Foundation (£1,000–1,500/mo) locks down your Google profile, reviews and booking flow; Growth (£2,000–2,500/mo) adds content and targeted paid ads; Full Stack (£3,000–3,500/mo) runs the complete multi-channel engine.' },
-    { q: 'Do you offer a free audit?', a: "Yes. Take the free 2-minute growth audit on our site to score your venue out of 20 and see which tier fits — no email required. Book a call and we'll also send a free growth teardown within 24 hours." },
-    { q: 'Will running ads mean discounting my brand?', a: "No. We fill rooms with positioning and demand, not discounts. For Akbar's Glasgow we lifted midweek covers 62% in 90 days without discounting the brand." },
+    { q: 'Do you offer a free audit?', a: "Yes. Take the free 2-minute growth quiz on our site to score your venue out of 20 and see which tier fits — no email required. Book a call and we'll also send a free in-depth audit within 24 hours." },
+    { q: 'Will running ads mean discounting my brand?', a: "No. We fill rooms with positioning and demand, not discounts. For Akbar's Glasgow we lifted midweek covers 48% in 90 days without discounting the brand." },
     { q: 'How quickly will I see results?', a: 'Paid campaigns can start driving bookings within the first few weeks. Our model is Scale, Adapt, Improve — we test creative and offers night to night, then compound what works so rooms get fuller and cost per cover drops over time.' },
   ];
 
@@ -298,7 +298,7 @@
   $('#privacySections').innerHTML = privacySections.map((s) =>
     `<div class="privacy-sec"><h2><span class="n">${esc(s.n)}</span>${esc(s.h)}</h2><p>${esc(s.body)}</p></div>`).join('');
 
-  /* -------------------------------------------------------------- AUDIT QUIZ */
+  /* -------------------------------------------------------------- GROWTH QUIZ */
   const answers = [-1, -1, -1, -1, -1];
   let step = 0;
   let auditTimer = null;
@@ -371,7 +371,7 @@
   $('#auditBack').addEventListener('click', () => { step = Math.max(step - 1, 0); renderAudit(); });
   $('#auditReset').addEventListener('click', () => {
     answers.fill(-1); step = 0; renderAudit();
-    scrollToId('audit');
+    scrollToId('quiz');
   });
   renderAudit();
 
