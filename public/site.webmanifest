@@ -1,0 +1,12 @@
+{
+  "name": "SAI Social — Fill The Room",
+  "short_name": "SAI Social",
+  "description": "UK marketing agency for bars, clubs, restaurants and events. Paid ads, content and booking funnels that fill your venue.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#0F3DFF",
+  "icons": [
+    { "src": "/assets/logo-mark-white-t.png", "sizes": "any", "type": "image/png" }
+  ]
+}

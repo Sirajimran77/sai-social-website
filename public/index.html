@@ -1,15 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SAI Social — We fill the room before the doors open</title>
-<meta name="description" content="SAI Social builds the demand engine — paid ads, scroll-stopping content and a booking funnel — that packs your venue night after night. Not impressions. Bodies through the door.">
+
+<!-- ============================================================
+     Per-route SEO block. The server (server.js) swaps everything
+     between SEO:HEAD:START / SEO:HEAD:END for /about and /privacy.
+     Values below are the home-page defaults.
+     Placeholder domain: https://www.saisocial.co.uk
+     (find-and-replace this once the real domain is live)
+     ============================================================ -->
+<!-- SEO:HEAD:START -->
+<title>Marketing Agency for Bars, Clubs & Restaurants | SAI Social</title>
+<meta name="description" content="SAI Social is a UK marketing agency for bars, clubs, restaurants and events. We run paid ads, content and booking funnels that fill your venue — bodies through the door.">
+<link rel="canonical" href="https://www.saisocial.co.uk/">
+<meta property="og:url" content="https://www.saisocial.co.uk/">
+<meta property="og:title" content="Marketing Agency for Bars, Clubs & Restaurants | SAI Social">
+<meta property="og:description" content="We build the demand engine — paid ads, content and a booking funnel — that packs your venue night after night. Not impressions. Bodies through the door.">
+<meta name="twitter:title" content="Marketing Agency for Bars, Clubs & Restaurants | SAI Social">
+<meta name="twitter:description" content="We build the demand engine — paid ads, content and a booking funnel — that packs your venue night after night. Not impressions. Bodies through the door.">
+<!-- SEO:HEAD:END -->
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="SAI Social">
+<meta name="theme-color" content="#0F3DFF">
+
+<!-- Open Graph / social sharing (static) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SAI Social">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://www.saisocial.co.uk/assets/photo-dancefloor.png">
+<meta property="og:image:alt" content="A packed dancefloor at a venue filled by SAI Social">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.saisocial.co.uk/assets/photo-dancefloor.png">
+
 <link rel="icon" href="assets/logo-mark-white-t.png">
+<link rel="apple-touch-icon" href="assets/logo-mark-white-t.png">
+<link rel="manifest" href="site.webmanifest">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="assets/photo-dancefloor.png" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
 <link rel="stylesheet" href="styles.css">
+
+<!-- ===================== STRUCTURED DATA (JSON-LD) ===================== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["Organization", "ProfessionalService"],
+      "@id": "https://www.saisocial.co.uk/#organization",
+      "name": "SAI Social",
+      "alternateName": "SAI Social — Fill The Room",
+      "url": "https://www.saisocial.co.uk/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.saisocial.co.uk/assets/logo-lockup-black-t.png"
+      },
+      "image": "https://www.saisocial.co.uk/assets/photo-dancefloor.png",
+      "description": "SAI Social is a UK performance-marketing agency for bars, clubs, restaurants and events. We build paid-ads, content and booking funnels that fill venues — measured in bodies through the door, not impressions.",
+      "slogan": "We fill the room before the doors open.",
+      "email": "saimanagement77@gmail.com",
+      "priceRange": "££",
+      "areaServed": { "@type": "Country", "name": "United Kingdom" },
+      "address": { "@type": "PostalAddress", "addressCountry": "GB" },
+      "knowsAbout": [
+        "Hospitality marketing",
+        "Nightlife marketing",
+        "Restaurant marketing",
+        "Paid social advertising",
+        "Local SEO",
+        "Meta Ads",
+        "Google Ads",
+        "TikTok marketing"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Venue growth services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Meta Paid Ads", "description": "Geo-targeted Facebook and Instagram ad systems that put your venue in front of the right locals at the moment they decide where to go." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Google & Search Ads", "description": "Intent-based search and Performance Max campaigns that capture people already searching for a table or a night out." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reels & Short-Form Content", "description": "On-site shoots and weekly Reels engineered for reach that make people feel the night before they arrive." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "TikTok Content", "description": "Native, trend-led TikTok content that lands your venue on the For You Page of everyone in your catchment." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Promoter & Influencer Marketing", "description": "A vetted network of local creators and promoters who bring the right crowd through the door, with attribution on every seat." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Websites & Booking Funnels", "description": "Fast, striking venue sites with integrated booking, waitlist and ticketing funnels, tracked end to end." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Local SEO & Listings", "description": "Google Business Profile optimisation, review generation and local citations that drive compounding foot traffic." } }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.saisocial.co.uk/#website",
+      "url": "https://www.saisocial.co.uk/",
+      "name": "SAI Social",
+      "inLanguage": "en-GB",
+      "publisher": { "@id": "https://www.saisocial.co.uk/#organization" }
+    }
+  ]
+}
+</script>
+<!-- SEO:FAQ-LD:START -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How does SAI Social get more people through my venue's doors?", "acceptedAnswer": { "@type": "Answer", "text": "We build a demand engine around your venue: geo-targeted paid ads, scroll-stopping content and a tracked booking funnel. Every campaign is judged on one metric — bodies through the door — so budget flows to whatever actually fills the room, night by night." } },
+    { "@type": "Question", "name": "Which venues does SAI Social work with?", "acceptedAnswer": { "@type": "Answer", "text": "We work with UK hospitality and nightlife: bars, cocktail bars, nightclubs, restaurants, members' clubs and events or festivals. If success looks like a full room, full tables or a sold-out night, we can help." } },
+    { "@type": "Question", "name": "How much does SAI Social cost?", "acceptedAnswer": { "@type": "Answer", "text": "We work on monthly retainers across three tiers: Foundation (£1,000–1,500/mo) locks down your Google profile, reviews and booking flow; Growth (£2,000–2,500/mo) adds content and targeted paid ads; Full Stack (£3,000–3,500/mo) runs the complete multi-channel engine." } },
+    { "@type": "Question", "name": "Do you offer a free audit?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Take the free 2-minute growth audit on our site to score your venue out of 20 and see which tier fits — no email required. Book a call and we'll also send a free growth teardown within 24 hours." } },
+    { "@type": "Question", "name": "Will running ads mean discounting my brand?", "acceptedAnswer": { "@type": "Answer", "text": "No. We fill rooms with positioning and demand, not discounts. For Akbar's Glasgow we lifted midweek covers 62% in 90 days without discounting the brand." } },
+    { "@type": "Question", "name": "How quickly will I see results?", "acceptedAnswer": { "@type": "Answer", "text": "Paid campaigns can start driving bookings within the first few weeks. Our model is Scale, Adapt, Improve — we test creative and offers night to night, then compound what works so rooms get fuller and cost per cover drops over time." } }
+  ]
+}
+</script>
+<!-- SEO:FAQ-LD:END -->
 </head>
 <body>
 
@@ -49,7 +157,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg">
-      <img src="assets/photo-dancefloor.png" alt="" aria-hidden="true" class="hero-img">
+      <img src="assets/photo-dancefloor.png" alt="" aria-hidden="true" class="hero-img" fetchpriority="high" decoding="async">
       <div class="hero-grad"></div>
       <div class="hero-beam"></div>
     </div>
@@ -122,7 +230,7 @@
 
   <!-- STATS -->
   <section class="stats-section">
-    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="stats-globe">
+    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="stats-globe" loading="lazy" decoding="async">
     <div class="reveal wrap" style="position:relative">
       <span class="eyebrow eyebrow-accent"><span class="rule"></span>The numbers</span>
       <h2 class="h2-light" style="max-width:18ch">We report bodies, not vanity metrics.</h2>
@@ -168,7 +276,7 @@
   <section class="split-section">
     <div class="reveal wrap split-grid">
       <div class="split-img split-img-accent">
-        <img src="assets/cs-restaurant.png" alt="A packed restaurant dining room">
+        <img src="assets/cs-restaurant.png" alt="A packed restaurant dining room" loading="lazy" decoding="async">
       </div>
       <div>
         <span class="eyebrow eyebrow-muted"><span class="rule"></span>Now serving restaurants</span>
@@ -194,7 +302,7 @@
       <div class="reveal case-card">
         <div class="case-grid">
           <div class="case-img">
-            <img src="assets/cs-akbars.png" alt="Akbar's Glasgow">
+            <img src="assets/cs-akbars.png" alt="Akbar's Glasgow restaurant, a SAI Social case study" loading="lazy" decoding="async">
             <div class="case-img-overlay">
               <span class="case-big">+62%</span>
               <span class="case-big-label">Weeknight covers · 90 days</span>
@@ -227,6 +335,20 @@
       <span class="eyebrow eyebrow-muted" style="margin-bottom:34px"><span class="rule"></span>What owners say</span>
     </div>
     <div class="testi-scroll noscroll" id="testiScroll"></div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="services-section" style="border-top:2px solid #000">
+    <div class="reveal wrap">
+      <div class="services-head">
+        <div>
+          <span class="eyebrow eyebrow-muted"><span class="rule"></span>Questions, answered</span>
+          <h2 class="h2-dark" style="max-width:16ch;margin-bottom:0">Everything owners ask before they book.</h2>
+        </div>
+        <p class="services-head-p">Straight answers on how we work, who we work with and what it costs.</p>
+      </div>
+      <div class="accordion" id="faqAccordion"></div>
+    </div>
   </section>
 
   <!-- CONTACT / FORM -->
@@ -274,7 +396,7 @@
 <!-- ===================== ABOUT ===================== -->
 <main id="view-about" hidden>
   <section class="about-hero">
-    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="about-hero-globe">
+    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="about-hero-globe" loading="lazy" decoding="async">
     <div class="wrap" style="position:relative">
       <span class="eyebrow eyebrow-accent anim-rise"><span class="rule"></span>About SAI Social</span>
       <h1 class="about-h1">We don't sell impressions. We fill rooms.</h1>
@@ -285,7 +407,7 @@
   <section class="split-section" style="padding:clamp(56px,8vw,110px) 0">
     <div class="reveal wrap split-grid">
       <div class="split-img">
-        <img src="assets/photo-bartender.png" alt="Behind the bar">
+        <img src="assets/photo-bartender.png" alt="A bartender at work behind the bar" loading="lazy" decoding="async">
       </div>
       <div>
         <span class="eyebrow eyebrow-muted"><span class="rule"></span>Our story</span>
@@ -323,7 +445,7 @@
 <!-- ===================== PRIVACY ===================== -->
 <main id="view-privacy" hidden>
   <section class="about-hero" style="padding:clamp(80px,12vw,150px) 0 clamp(48px,6vw,80px)">
-    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="about-hero-globe" style="right:-180px;left:auto">
+    <img src="assets/globe-white.png" alt="" aria-hidden="true" class="about-hero-globe" style="right:-180px;left:auto" loading="lazy" decoding="async">
     <div class="wrap-mid" style="position:relative">
       <span class="eyebrow eyebrow-accent anim-rise"><span class="rule"></span>Legal</span>
       <h1 class="about-h1" style="font-size:clamp(2.6rem,8vw,5.6rem)">Privacy Policy</h1>
@@ -353,7 +475,7 @@
 
 <!-- ===================== FOOTER ===================== -->
 <footer class="site-footer">
-  <img src="assets/globe-white.png" alt="" aria-hidden="true" class="footer-globe">
+  <img src="assets/globe-white.png" alt="" aria-hidden="true" class="footer-globe" loading="lazy" decoding="async">
   <div class="wrap" style="position:relative">
     <div class="footer-top">
       <div style="max-width:34ch">

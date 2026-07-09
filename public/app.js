@@ -75,6 +75,16 @@
     { n: '09', h: 'Your rights', body: 'Under UK data protection law you have the right to access your personal data, to have inaccurate data corrected, to request erasure, to restrict or object to processing, and to data portability, as well as the right to withdraw consent at any time. To exercise any of these rights, contact us using the details below and we will respond within one month. If you are unhappy with how we handle your data, you have the right to complain to the Information Commissioner’s Office (ICO) at ico.org.uk.' },
   ];
 
+  // FAQ — copy MUST stay in sync with the FAQPage JSON-LD in index.html <head>.
+  const faqs = [
+    { q: "How does SAI Social get more people through my venue's doors?", a: "We build a demand engine around your venue: geo-targeted paid ads, scroll-stopping content and a tracked booking funnel. Every campaign is judged on one metric — bodies through the door — so budget flows to whatever actually fills the room, night by night." },
+    { q: 'Which venues does SAI Social work with?', a: "We work with UK hospitality and nightlife: bars, cocktail bars, nightclubs, restaurants, members' clubs and events or festivals. If success looks like a full room, full tables or a sold-out night, we can help." },
+    { q: 'How much does SAI Social cost?', a: 'We work on monthly retainers across three tiers: Foundation (£1,000–1,500/mo) locks down your Google profile, reviews and booking flow; Growth (£2,000–2,500/mo) adds content and targeted paid ads; Full Stack (£3,000–3,500/mo) runs the complete multi-channel engine.' },
+    { q: 'Do you offer a free audit?', a: "Yes. Take the free 2-minute growth audit on our site to score your venue out of 20 and see which tier fits — no email required. Book a call and we'll also send a free growth teardown within 24 hours." },
+    { q: 'Will running ads mean discounting my brand?', a: "No. We fill rooms with positioning and demand, not discounts. For Akbar's Glasgow we lifted midweek covers 62% in 90 days without discounting the brand." },
+    { q: 'How quickly will I see results?', a: 'Paid campaigns can start driving bookings within the first few weeks. Our model is Scale, Adapt, Improve — we test creative and offers night to night, then compound what works so rooms get fuller and cost per cover drops over time.' },
+  ];
+
   /* --------------------------------------------------------------- HELPERS */
   const $ = (sel, ctx) => (ctx || document).querySelector(sel);
   const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
@@ -83,13 +93,48 @@
   /* ---------------------------------------------------------- ROUTING/VIEWS */
   const views = { home: $('#view-home'), about: $('#view-about'), privacy: $('#view-privacy') };
 
-  function setView(v) {
+  // Real, crawlable URLs per view. The server (server.js) renders matching
+  // <title>/description/canonical on first load; we keep them in sync during
+  // client-side navigation so the rendered DOM and tab title stay correct.
+  const routeMeta = {
+    home:    { path: '/',        title: 'Marketing Agency for Bars, Clubs & Restaurants | SAI Social', desc: 'SAI Social is a UK marketing agency for bars, clubs, restaurants and events. We run paid ads, content and booking funnels that fill your venue — bodies through the door.' },
+    about:   { path: '/about',   title: 'About SAI Social | Marketing Built for Hospitality & Nightlife', desc: 'Meet SAI Social — a UK performance-marketing team for bars, clubs, restaurants and events. Built on the floor, not in a boardroom. We fill rooms, not feeds.' },
+    privacy: { path: '/privacy', title: 'Privacy Policy | SAI Social', desc: 'How SAI Social collects, uses and protects your personal data under UK GDPR and the Data Protection Act 2018.' },
+  };
+  const pathToView = { '/': 'home', '/about': 'about', '/privacy': 'privacy' };
+
+  function applyRouteMeta(v) {
+    const m = routeMeta[v]; if (!m) return;
+    const url = location.origin + m.path;
+    document.title = m.title;
+    const set = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+    set('meta[name="description"]', 'content', m.desc);
+    set('link[rel="canonical"]', 'href', url);
+    set('meta[property="og:url"]', 'content', url);
+    set('meta[property="og:title"]', 'content', m.title);
+    set('meta[property="og:description"]', 'content', m.desc);
+    set('meta[name="twitter:title"]', 'content', m.title);
+    set('meta[name="twitter:description"]', 'content', m.desc);
+  }
+
+  function setView(v, opts) {
+    if (!views[v]) v = 'home';
     Object.keys(views).forEach((k) => { views[k].hidden = k !== v; });
+    applyRouteMeta(v);
+    const push = !opts || opts.push !== false;
+    if (push && routeMeta[v] && location.pathname !== routeMeta[v].path) {
+      history.pushState({ view: v }, '', routeMeta[v].path);
+    }
     closeMenu();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: (opts && opts.instant) ? 'auto' : 'smooth' });
     runReveal();
     if (typeof updateCta === 'function') updateCta();
   }
+
+  // Back/forward buttons.
+  window.addEventListener('popstate', () => {
+    setView(pathToView[location.pathname] || 'home', { push: false, instant: true });
+  });
 
   function scrollToId(id) {
     const go = () => {
@@ -187,6 +232,34 @@
     if (!isOpen) { item.classList.add('open'); head.setAttribute('aria-expanded', 'true'); }
   });
 
+  // FAQ accordion (reuses the .acc-* styling from the services accordion)
+  const faqAcc = $('#faqAccordion');
+  if (faqAcc) {
+    faqAcc.innerHTML = faqs.map((f, i) => `
+      <div class="acc-item" data-idx="${i}">
+        <button class="acc-head" aria-expanded="false">
+          <span class="acc-title" style="font-size:clamp(1.05rem,2.4vw,1.5rem)">${esc(f.q)}</span>
+          <span class="acc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4"><path d="M12 5v14M5 12h14"></path></svg></span>
+        </button>
+        <div class="acc-panel">
+          <div class="acc-panel-inner" style="grid-template-columns:1fr">
+            <p class="acc-blurb" style="max-width:70ch;margin:0">${esc(f.a)}</p>
+          </div>
+        </div>
+      </div>`).join('');
+    faqAcc.addEventListener('click', (e) => {
+      const head = e.target.closest('.acc-head');
+      if (!head) return;
+      const item = head.parentElement;
+      const isOpen = item.classList.contains('open');
+      $$('.acc-item', faqAcc).forEach((it) => {
+        it.classList.remove('open');
+        $('.acc-head', it).setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) { item.classList.add('open'); head.setAttribute('aria-expanded', 'true'); }
+    });
+  }
+
   // Case study
   $('#caseTags').innerHTML = akbarTags.map((t) => `<span class="case-tag">${esc(t)}</span>`).join('');
   $('#caseStats').innerHTML = akbarStats.map((s) =>
@@ -216,7 +289,7 @@
   // Team
   $('#teamGrid').innerHTML = team.map((m) => `
     <div class="team-card">
-      ${m.img ? `<img class="team-img" src="${esc(m.img)}" alt="${esc(m.n)}">` : `<span class="team-badge">${esc(m.i)}</span>`}
+      ${m.img ? `<img class="team-img" src="${esc(m.img)}" alt="${esc(m.n)}, SAI Social" loading="lazy" decoding="async">` : `<span class="team-badge">${esc(m.i)}</span>`}
       <div class="team-n">${esc(m.n)}</div>
       <div class="team-r">${esc(m.r)}</div>
     </div>`).join('');
@@ -231,9 +304,9 @@
   let auditTimer = null;
 
   function tierFor(score) {
-    if (score <= 8) return { name: 'Foundation', price: '$1,000–1,500 / mo', blurb: 'The fundamentals are leaking bookings. We lock down your Google profile, reviews and booking flow first — the fastest wins to stop losing covers you should already be getting.' };
-    if (score <= 14) return { name: 'Growth', price: '$2,000–2,500 / mo', blurb: 'Your basics are solid — now we scale. Consistent content plus targeted paid ads tied to real offers turn steady traffic into a reliably fuller room, week after week.' };
-    return { name: 'Full Stack', price: '$3,000–3,500 / mo', blurb: "You're already doing a lot right. We run the complete engine — multi-channel ads, content and funnels — to compound your advantage and own your local market." };
+    if (score <= 8) return { name: 'Foundation', price: '£1,000–1,500 / mo', blurb: 'The fundamentals are leaking bookings. We lock down your Google profile, reviews and booking flow first — the fastest wins to stop losing covers you should already be getting.' };
+    if (score <= 14) return { name: 'Growth', price: '£2,000–2,500 / mo', blurb: 'Your basics are solid — now we scale. Consistent content plus targeted paid ads tied to real offers turn steady traffic into a reliably fuller room, week after week.' };
+    return { name: 'Full Stack', price: '£3,000–3,500 / mo', blurb: "You're already doing a lot right. We run the complete engine — multi-channel ads, content and funnels — to compound your advantage and own your local market." };
   }
 
   function renderAudit() {
@@ -374,6 +447,7 @@
 
   function showError(msg) { errorBox.textContent = msg; errorBox.hidden = false; }
 
-  // Set the sticky CTA to its correct initial state on load.
-  updateCta();
+  // Establish the initial view from the URL (server serves the SPA shell for
+  // /about and /privacy) — this also sets the sticky CTA state via setView().
+  setView(pathToView[location.pathname] || 'home', { push: false, instant: true });
 })();
