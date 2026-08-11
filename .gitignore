@@ -3,3 +3,31 @@ node_modules/
 *.log
 .DS_Store
 .agents/
+
+# ---------------------------------------------------------------------------
+# THIS REPO IS PUBLIC. Everything below is internal working material and must
+# never be pushed. Several of these hold third-party personal data (prospect
+# CSVs, a named prospect's deal pack) and a competitor teardown naming a real
+# sole trader. Do not remove these lines to "tidy up".
+#
+# NOTE: gitignore has no trailing-comment syntax. A comment on the same line as
+# a pattern becomes part of the pattern and silently matches nothing.
+# ---------------------------------------------------------------------------
+
+# Outbound strategy, playbooks, prospect CSVs, parked copy
+content/
+# Per-prospect research and deal packs
+prospects/
+# Internal specs
+docs/
+# Unrelated brand exploration
+luna-rebrand/
+# Internal agent brief
+CLAUDE.md
+
+# Local tooling output
+.playwright-mcp/
+
+# Stray source images, not referenced by the site
+/hero.png
+/sai-hero.png

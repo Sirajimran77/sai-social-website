@@ -1,88 +1,292 @@
 /* ==========================================================================
-   SAI Social — "Fill The Room" — front-end logic
+   SAI Social. "More customers, not more followers". Front-end logic
    ========================================================================== */
 (function () {
   'use strict';
 
   /* ---------------------------------------------------------------- DATA */
+  // Three pillars. Replaces the old seven-service accordion. See
+  // docs/superpowers/specs/2026-08-05-horizontal-repositioning-design.md
   const services = [
-    { n: '01', title: 'Meta Paid Ads', tag: 'FB · Instagram', blurb: "Geo-targeted ad systems that put your venue in front of the right locals at the exact moment they're deciding where to go tonight.", points: ['Hyper-local + lookalike targeting', 'Scroll-stopping video & story creative', 'Event, booking & guest-list campaigns', 'Retargeting for walk-ins and regulars'], outcome: 'More covers, lower cost per booking' },
-    { n: '02', title: 'Google & Search Ads', tag: 'Search · PMax', blurb: 'Capture the people already searching "bars near me" and "book a table tonight" before your competitor does.', points: ['Intent-based search campaigns', 'Google Maps & local pack visibility', 'Call & reservation tracking', 'Performance Max for reach'], outcome: 'Own the moment of decision' },
-    { n: '03', title: 'Reels & Short-Form', tag: 'Content', blurb: 'We shoot and edit content that sells the atmosphere — the room, the pour, the crowd — so people feel the night before they arrive.', points: ['On-site shoot days', 'Weekly Reels & Stories', 'Hooks engineered for reach', 'Trend-native editing'], outcome: 'Content that makes people show up' },
-    { n: '04', title: 'TikTok Content', tag: 'FYP', blurb: 'Native TikTok content that rides local trends and lands your venue on the For You Page of everyone in a 10-mile radius.', points: ['Trend-jacking strategy', 'Creator-style native edits', 'Sound & hashtag targeting', 'Cadence that compounds'], outcome: 'From unknown to unmissable' },
-    { n: '05', title: 'Promoter & Influencer', tag: 'Network', blurb: 'We plug your night into a network of local tastemakers and promoters who bring the right crowd through the door.', points: ['Vetted local creator matching', 'Guest-list & comp management', 'Content deliverables built in', 'Attribution on every seat'], outcome: 'Borrowed reach, real bodies' },
-    { n: '06', title: 'Websites & Bookings', tag: 'Build', blurb: 'A fast, striking site with a booking and guest-list funnel that turns a tap into a table.', points: ['Custom brutalist venue site', 'Integrated bookings / waitlist', 'Event ticketing hooks', 'Tracking wired end-to-end'], outcome: 'Every click has somewhere to go' },
-    { n: '07', title: 'Local SEO & Listings', tag: 'Organic', blurb: 'Own the map pack, the reviews and the searches that bring in walk-ins long after the ad budget stops.', points: ['Google Business optimisation', 'Review generation systems', 'Local citation cleanup', 'Content that ranks'], outcome: 'Compounding foot traffic' },
+    {
+      n: '01', title: 'Social', tag: 'Content · Community',
+      blurb: 'Short-form video that stops the scroll, plus the profile and community work that turns a viewer into a customer instead of a follower.',
+      points: ['20+ short-form videos per month', 'Profile optimisation across every platform', 'Community management: comments, DMs, replies', 'Strategy and research built on your market', 'Performance review in plain numbers'],
+      outcome: 'Content that brings people in, not just eyes',
+    },
+    {
+      n: '02', title: 'Web', tag: 'Build · SEO · Tracking',
+      blurb: 'The place every click has to land. A fast, striking site wired to search, email and a dashboard that shows you what actually happened.',
+      points: ['Full website design and build', 'SEO that compounds long after the ads stop', 'Google Business Profile setup and optimisation', 'Email marketing that reactivates old customers', 'Client dashboard and tracking, wired end to end'],
+      outcome: 'Every click has somewhere to go, and gets counted',
+    },
+    {
+      n: '03', title: 'Paid Ads', tag: 'Meta · Google · TikTok',
+      blurb: 'Budget pointed at people who are ready to buy. We write the strategy, film the ads ourselves, and cut whatever stops working.',
+      points: ['Ad strategy tied to a real offer', 'Ads filmed in-house, never outsourced', 'Google Search & Performance Max for buying intent', 'Meta and TikTok for demand you have to create', 'Performance review every month, no jargon'],
+      outcome: 'Spend that comes back, tracked to the sale',
+    },
   ];
 
+  // What we report back, in plain language. These are our reporting commitments, not
+  // performance claims. We have no aggregate client results to publish yet. The
+  // invented figures that used to sit here are parked in content/parked-social-proof.md.
   const stats = [
-    { v: '+64%', l: 'Avg. increase in bookings' },
-    { v: '1.1M', l: 'Local impressions / month' },
-    { v: '18', l: 'Sold-out nights delivered' },
-    { v: '3.6×', l: 'Return on ad spend' },
+    { n: '01', v: 'Customers', l: 'Bookings, orders and enquiries. Counted, not estimated.' },
+    { n: '02', v: 'Cost per customer', l: 'What each one actually cost you to win, channel by channel.' },
+    { n: '03', v: 'Return on ad spend', l: 'Revenue back for every pound that went out.' },
+    { n: '04', v: 'Against your baseline', l: 'Every number sits next to the one we wrote down on day one.' },
   ];
 
   const steps = [
-    { k: '01 / Scale', w: 'Scale', d: "We build the funnel — ads, content and a booking flow — and push it to every local who'd actually show up." },
-    { k: '02 / Adapt', w: 'Adapt', d: 'We test creative and offers night to night, kill what flops, and pour budget into what packs the floor.' },
-    { k: '03 / Improve', w: 'Improve', d: 'Every week compounds. Fuller rooms, lower cost per cover, more regulars — reported in plain numbers.' },
+    { k: '01', w: 'Baseline', d: "Before we touch anything, we record what you're doing now: bookings, orders, enquiries, revenue, where traffic comes from. Agreed in writing. This is the number the guarantee is measured against." },
+    { k: '02', w: 'Audit', d: 'A full channel-by-channel teardown of your business: social, content, website, SEO and paid, walked through live on a call. We show you exactly where customers are leaking out.' },
+    { k: '03', w: 'Infrastructure', d: 'We build the plumbing most businesses are missing: a site that converts, booking or ordering that works on a phone, tracking wired end to end, and a dashboard you can actually read.' },
+    { k: '04', w: 'Build', d: 'Content goes into production and ads go live. We film, edit and publish. Short-form built for your market, not recycled templates.' },
+    { k: '05', w: 'Automate', d: 'Email flows, review requests, follow-ups and re-engagement run in the background. On Gold we design and build the app or custom tooling your business needs to own its customers directly.' },
+    { k: '06', w: 'Improve', d: 'Every week compounds. We test, kill what flops, and pour budget into whatever is actually winning customers. Everything is reported in plain numbers against that day-one baseline.' },
   ];
 
-  const akbarTags = ['Meta Paid Ads', 'Google Ads', 'Marketing Strategy', 'Local SEO'];
-  const akbarStats = [
-    { v: '+48%', l: 'Weeknight covers' },
-    { v: '3.1×', l: 'Return on ad spend' },
-    { v: '−29%', l: 'Cost per booking' },
-  ];
-  const akbarDeepDive = [
-    { k: 'The challenge', h: 'Full at weekends, quiet midweek', body: "Akbar's is a well-known Glasgow name with strong Friday and Saturday trade, but Monday-to-Thursday tables sat empty. They were relying on reputation and word of mouth, with no paid acquisition and no clear picture of what was actually driving bookings." },
-    { k: 'The strategy', h: 'A local demand engine, not just ads', body: "We built a full marketing strategy around midweek demand: mapping the catchment, the competitor set and the moments locals decide where to eat. We positioned Akbar's around specific occasions — after-work dinners, family midweek meals and set-menu value — instead of generic \"come in\" messaging." },
-    { k: 'The execution', h: 'Paid ads wired to real bookings', body: "We ran geo-targeted Meta and Google campaigns to a tight radius around the restaurant, with creative built from real food and room footage. Every campaign fed a tracked booking funnel, so we could see cost per cover night by night and shift budget toward the offers and audiences that filled tables." },
-    { k: 'The result', h: '+48% midweek covers in 90 days', body: "Within three months weeknight covers were up 48%, return on ad spend held at 3.1×, and cost per booking dropped 29% as we optimised. Akbar's now has a repeatable, measurable channel filling the nights that used to sit quiet — without discounting the brand." },
+  // Cost of buying each piece separately vs one retainer. Figures are LOW-END typical
+  // UK freelance and SaaS rates as of Aug 2026. Deliberately conservative so the
+  // comparison is defensible. They are estimates and the page says so. Do not inflate
+  // them: an owner who has actually hired a videographer will know if we have.
+  const buildCosts = [
+    { n: 'Videographer', d: 'One shoot day a month', v: 400 },
+    { n: 'Video editor', d: '20 short-form edits a month', v: 600 },
+    { n: 'Social media manager', d: 'Freelance, part-time', v: 900 },
+    { n: 'Website build', d: '£3,000 build, spread over a year', v: 250 },
+    { n: 'SEO specialist', d: 'Local search and on-page', v: 500 },
+    { n: 'Paid ads manager', d: 'Meta, Google and TikTok', v: 500 },
+    { n: 'Email platform + setup', d: 'Klaviyo or Mailchimp', v: 70 },
+    { n: 'Analytics & reporting', d: 'Dashboards and tracking tools', v: 120 },
+    { n: 'Design & editing software', d: 'Adobe, Canva Pro, CapCut Pro', v: 60 },
   ];
 
-  const testimonials = [
-    { q: 'Our bottomless brunch now sells out every weekend — tables booked solid before noon.', a: 'Lena F.', r: 'Owner, Maison Field', i: 'LF' },
-    { q: 'We went from half-empty Thursdays to a queue down the block. SAI just gets nightlife.', a: 'Marco V.', r: 'Owner, Neon Rooms', i: 'MV' },
-    { q: "The room was full before we'd even announced the lineup. That's the whole game.", a: 'Priya S.', r: 'GM, Altitude Rooftop', i: 'PS' },
-    { q: "Our launch weekend sold out in 48 hours. We've never seen numbers move like this.", a: 'Danny K.', r: 'Founder, Warehouse 9', i: 'DK' },
+  // The "I already pay someone £300 a month" objection. Deliberately framed
+  // around what cheap social buys you, NOT around where the person lives.
+  // The argument is stronger on outcomes and it keeps the page defensible.
+  // Deliberately terse: every cell is one short line so the whole comparison
+  // scans in seconds. Length here is the enemy of the argument.
+  const cheapRows = [
+    { l: 'What you get', a: 'Posts. Something goes up most days.', b: 'Customers, tracked to the booking or the order.' },
+    { l: 'Who makes it', a: 'Someone who has never seen your business.', b: 'We film on site, in your room, with your staff.' },
+    { l: 'The strategy', a: 'Whatever is trending, applied to any account.', b: 'Built on your market, your offer, your competitors.' },
+    { l: 'Paid ads', a: 'A boosted post now and again, if at all.', b: 'Meta, Google and TikTok behind a real offer.' },
+    { l: 'Your website', a: 'Not their problem.', b: 'Built, wired to search, pointed at a checkout.' },
+    { l: 'Reporting', a: 'Views, likes and follower count.', b: 'Customers, cost per customer, revenue.' },
+    { l: 'If it does not work', a: 'You keep paying £300 a month.', b: 'Month four is free. That is the Baseline Guarantee.' },
   ];
+
+  // PRICING. This is one of FOUR places tier prices live. The others are
+  // tierFor() below, the FAQ copy below, and the FAQPage JSON-LD in index.html.
+  // Change one, change all four.
+  //
+  // The feature lists are deliberately itemised rather than summarised. A buyer
+  // comparing three quotes cannot value work they can't see, and "community
+  // management" hides about six separate jobs. Two hard rules when editing:
+  //   1. Every line must be something we actually do. The moment one is
+  //      aspirational the whole list becomes padding, and being the honest
+  //      quote is the entire position.
+  //   2. Nothing paid-ads-shaped may appear on Bronze. Bronze runs no ads, and
+  //      the `excludes` list below says so on purpose. Naming the gap out loud
+  //      is what makes the rest of the list credible.
+  const tiers = [
+    {
+      k: 'bronze', name: 'Bronze', price: '£800', per: '/ month', featured: false,
+      blurb: 'Get the content engine running and find out what your audience actually responds to.',
+      groups: [
+        { h: 'Content', items: [
+          '8 short-form videos a month, filmed and edited by us',
+          'We come to you: on-site shoot day, no stock footage',
+          'Cut for Reels, TikTok and Shorts from one shoot',
+          'Captions burned in as standard',
+          'Licensed trending audio, so nothing gets muted or struck',
+          'Cover frame designed for every video',
+          'Hooks written and tested, not guessed',
+          'You approve everything before it goes live',
+        ] },
+        { h: 'Profile & community', items: [
+          'Bio, links and highlights rebuilt to convert',
+          'Grid kept visually consistent',
+          'Comments, DMs and replies handled daily',
+          'Review responses drafted for you',
+        ] },
+        { h: 'Strategy & reporting', items: [
+          'Competitor and market research before we shoot',
+          'Content calendar planned a month ahead',
+          'Posting timed to when your audience is actually awake',
+          'Monthly performance report in plain numbers',
+          'Your baseline recorded in writing before we start',
+          'The Baseline Guarantee',
+          'A direct line to the people doing the work',
+          'No setup fee, no minimum term',
+        ] },
+      ],
+      excludes: ['Paid ad management', 'Website build and SEO'],
+      cta: 'Start with Bronze',
+    },
+    {
+      k: 'silver', name: 'Silver', price: '£1,500', per: '/ month', featured: true,
+      blurb: 'The full engine. Content, a site that converts, and the dashboard that proves what it did.',
+      inherits: 'Everything in Bronze, plus:',
+      groups: [
+        { h: 'Content', items: [
+          '20+ short-form videos a month',
+          'Multiple shoot days, scheduled around your trading hours',
+          'Stills from the same shoot, yours to keep and use anywhere',
+          'Ad creative filmed in-house, never outsourced',
+        ] },
+        { h: 'Website & search', items: [
+          'Full website design and build',
+          'Mobile-first and built to load fast',
+          'Booking, ordering or checkout wired in and tested',
+          'Every page written for you, not filled with placeholder copy',
+          'On-page SEO and technical setup',
+          'Google Business Profile claimed, filled and optimised',
+          'Local search and map-pack targeting',
+          'Structured data so AI search engines can read and cite you',
+          'Hosting, SSL and ongoing technical upkeep',
+        ] },
+        { h: 'Paid ads', items: [
+          'Meta and TikTok campaigns',
+          'Google Search and Performance Max for buying intent',
+          'Retargeting for people who looked and did not book',
+          'Creative built for the ad, not a recycled organic post',
+          'Budget paced weekly, and the media spend stays in your account',
+        ] },
+        { h: 'Tracking & reporting', items: [
+          'Live client dashboard, open to you 24/7',
+          'Conversion tracking wired end to end',
+          'Form, call and booking attribution',
+          'Weekly strategy call',
+          'Monthly deep-dive against your day-one baseline',
+        ] },
+      ],
+      cta: 'Start with Silver',
+    },
+    {
+      k: 'gold', name: 'Gold', price: 'Custom', per: '/ bespoke', featured: false,
+      blurb: 'Built around you. Unlimited content, the whole brand, automation, and first call on our time.',
+      inherits: 'Everything in Silver, plus:',
+      groups: [
+        { h: 'Content & brand', items: [
+          'Unlimited tailored video',
+          'Complete brand identity: logo, palette, type, guidelines',
+          'Personal brand build for the owner or founder',
+          'Design for print, menus and signage',
+        ] },
+        { h: 'Automation', items: [
+          'Email marketing: campaigns, flows and list growth',
+          'Automated review requests after every visit or order',
+          'Follow-up and re-engagement flows for lapsed customers',
+          'Abandoned booking and basket recovery',
+        ] },
+        { h: 'Product', items: [
+          'App design and build',
+          'Custom booking, ordering or loyalty tooling that you own outright',
+          'Integrations with your till, booking system or store',
+        ] },
+        { h: 'Service', items: [
+          'Priority client: you go to the front of the queue',
+          'Replies the same working day',
+          'Direct access to the founder',
+        ] },
+      ],
+      cta: 'Talk to us',
+    },
+  ];
+
+  /* ------------------------------------------------------ CONTACT CHANNELS */
+  // Powers BOTH the desktop floating dock and the mobile burger-menu links, so
+  // the two can never drift apart.
+  //
+  // >>> FILL THESE IN <<<
+  // `whatsapp` wants the full international number, digits only, no + or
+  // spaces: a UK mobile 07700 900123 becomes '447700900123'.
+  // `instagram` wants the handle without the @.
+  //
+  // Any channel left as an empty string is SKIPPED, and if none are set the
+  // dock hides itself entirely. That is deliberate: a placeholder number would
+  // send real enquiries to a stranger, so it is safer to ship nothing than to
+  // ship a guess.
+  const CONTACT = {
+    whatsapp: '447305920773', // +44 7305 920773
+    instagram: 'Sirajimran.sai',
+    email: 'saimanagement77@gmail.com',
+  };
+
+  // Prefilled so the conversation opens with context rather than a blank box.
+  const WA_MESSAGE = 'Hi SAI Social, I found you through your website and I would like to ask about growing my business.';
+
+  const ICONS = {
+    whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.44-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.08-.12-.27-.2-.57-.34M12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26C2.16 6.46 6.6 2.02 12.05 2.02c2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.43 9.89-9.88 9.89m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.48-8.41Z"/></svg>',
+    instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"></circle></svg>',
+    email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"></rect><path d="M3 6l9 6.5L21 6"></path></svg>',
+  };
+
+  // Built once, consumed by the dock and the mobile menu.
+  const contactChannels = [
+    CONTACT.whatsapp && {
+      k: 'whatsapp', label: 'WhatsApp', sub: 'Fastest reply',
+      href: `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(WA_MESSAGE)}`,
+      ext: true,
+    },
+    CONTACT.instagram && {
+      k: 'instagram', label: 'Instagram', sub: `@${CONTACT.instagram.replace(/^@/, '')}`,
+      href: `https://instagram.com/${CONTACT.instagram.replace(/^@/, '')}`,
+      ext: true,
+    },
+    CONTACT.email && {
+      k: 'email', label: 'Email', sub: CONTACT.email,
+      href: `mailto:${CONTACT.email}`, ext: false,
+    },
+  ].filter(Boolean);
+
+  // Case study + testimonials removed until there are real client results to publish.
+  // Restore instructions and the original markup: content/parked-social-proof.md
 
   const team = [
     { i: 'SI', n: 'Siraj Imran', r: 'Founder / Strategy', img: 'assets/team-siraj.jpg' },
-    { i: 'JR', n: 'Jordan R.', r: 'Paid Media Lead' },
-    { i: 'EK', n: 'Ethan K.', r: 'Content Director', img: 'assets/team-ethan.jpg' },
+    { i: 'TI', n: 'Tayyab I.', r: 'Content Director' },
+    { i: 'EK', n: 'Ethan K.', r: 'Paid Media Lead', img: 'assets/team-ethan.jpg' },
     { i: 'TL', n: 'Theo L.', r: 'Web & Funnels' },
   ];
 
   const auditData = [
-    { n: '01', cat: 'Google Business Profile', q: 'How complete and active is your Google Business Profile?', opts: ["No profile, or it's unclaimed", 'Claimed but missing hours, photos, or menu/event links', 'Complete, but no posts in the last 30+ days', 'Complete, but photos are stale or low quality', 'Complete, active, high-quality photos, categories optimized'] },
+    { n: '01', cat: 'Google Business Profile', q: 'How complete and active is your Google Business Profile?', opts: ["No profile, or it's unclaimed", 'Claimed but missing hours, photos or links', 'Complete, but no posts in the last 30+ days', 'Complete, but photos are stale or low quality', 'Complete, active, high-quality photos, categories optimised'] },
     { n: '02', cat: 'Reviews & Reputation', q: 'What best describes your review rating and activity?', opts: ['Under 4.0 stars, or fewer than 20 reviews', '4.0–4.3 stars, new reviews come in slowly', '4.3–4.6 stars, we reply to some reviews', '4.6+ stars, steady new reviews, we reply consistently', '4.7+ stars with a clear system driving new reviews'] },
-    { n: '03', cat: 'Website & Booking Flow', q: 'How easy is it for someone to book a table or buy a ticket on your site?', opts: ["No website, or it's broken/outdated", 'Website exists, but no clear booking/ticket CTA up top', 'CTA is there, but the booking flow is clunky or multi-step', 'Clean booking flow, but not great on mobile', 'Fast, mobile-first, one-click booking/ticket integration'] },
-    { n: '04', cat: 'Social Content', q: 'How would you describe your Instagram/TikTok activity?', opts: ['Inactive — no post in 30+ days, or no account', 'Posting, but mostly phone-shot flyers', 'Decent photo content, but no Reels/video', 'Reels exist, but posting is inconsistent / low engagement', 'Consistent Reels/TikTok with real engagement and a clear system'] },
-    { n: '05', cat: 'Paid Ads Presence', q: "What's your current paid advertising setup?", opts: ['No paid ads running anywhere', 'Only the occasional boosted post', 'Some Meta ads running, but no clear offer/targeting', 'Active Meta ads tied to events or offers', 'Multi-channel (Meta + Google Search/PMax) with retargeting'] },
+    { n: '03', cat: 'Website & Conversion', q: 'How easy is it to book, order or buy from you online?', opts: ["No website, or it's broken/outdated", 'Website exists, but no clear call to action up top', 'CTA is there, but the flow is clunky or multi-step', 'Clean flow, but not great on mobile', 'Fast, mobile-first, one-tap booking or checkout'] },
+    { n: '04', cat: 'Social Content', q: 'How would you describe your Instagram/TikTok activity?', opts: ['Inactive: no post in 30+ days, or no account', 'Posting, but mostly stills and flyers', 'Decent photo content, but no Reels/video', 'Reels exist, but posting is inconsistent / low engagement', 'Consistent Reels/TikTok with real engagement and a clear system'] },
+    { n: '05', cat: 'Paid Ads Presence', q: "What's your current paid advertising setup?", opts: ['No paid ads running anywhere', 'Only the occasional boosted post', 'Some Meta ads running, but no clear offer/targeting', 'Active Meta or TikTok ads tied to real offers', 'Multi-channel (Meta + Google Search/PMax) with retargeting'] },
   ];
 
   const privacySections = [
     { n: '01', h: 'Who we are', body: 'SAI Social ("we", "us", "our") is a UK-based marketing agency working with hospitality and events businesses. For the purposes of the UK GDPR and the Data Protection Act 2018, SAI Social is the "data controller" responsible for the personal information collected through this website. If you have any questions about this policy or how we handle your data, you can reach us using the contact details at the end of this page.' },
-    { n: '02', h: 'Information we collect', body: 'When you submit an enquiry or booking request through this site, we collect the details you choose to provide — typically your name, email address, phone number, business or venue name, and any message or project details you send us. We also collect limited technical information automatically, such as your IP address, browser type, device information, and how you interact with the site, which is used to keep the site secure and working properly.' },
+    { n: '02', h: 'Information we collect', body: 'When you submit an enquiry or booking request through this site, we collect the details you choose to provide: typically your name, email address, phone number, business or venue name, and any message or project details you send us. We also collect limited technical information automatically, such as your IP address, browser type, device information, and how you interact with the site, which is used to keep the site secure and working properly.' },
     { n: '03', h: 'How we use your information', body: 'We use your information to respond to your enquiry, arrange calls or meetings, prepare proposals, and provide our marketing services if you become a client. We rely on the following lawful bases under the UK GDPR: your consent (when you submit the enquiry form), the performance of a contract (to deliver services you have requested), and our legitimate interests (to run, secure, and improve our business). We only send marketing communications where you have agreed to receive them, and you can opt out at any time.' },
     { n: '04', h: 'Cookies & tracking', body: 'This site uses only the cookies and similar technologies necessary for it to function and to help us understand how visitors use it. We do not use intrusive tracking, and we will not set non-essential or advertising cookies without your consent. You can control or delete cookies through your browser settings; disabling essential cookies may affect how the site works.' },
-    { n: '05', h: 'Sharing & third parties', body: 'We do not sell your personal information. We share it only where necessary with trusted service providers who help us operate — for example our email and hosting providers, which process enquiry submissions on our behalf. These providers act on our instructions under appropriate agreements. We may also disclose information where required to comply with the law or to protect our legal rights.' },
+    { n: '05', h: 'Sharing & third parties', body: 'We do not sell your personal information. We share it only where necessary with trusted service providers who help us operate, for example our email and hosting providers, which process enquiry submissions on our behalf. These providers act on our instructions under appropriate agreements. We may also disclose information where required to comply with the law or to protect our legal rights.' },
     { n: '06', h: 'International transfers', body: 'Some of our service providers may store or process data outside the UK. Where personal data is transferred internationally, we take steps to ensure it is protected by an adequate level of safeguards, such as UK adequacy regulations or the International Data Transfer Agreement / Addendum, in line with UK data protection law.' },
     { n: '07', h: 'Data retention', body: 'We keep enquiry and contact information only for as long as needed to respond to you and, where relevant, to manage our working relationship. If you do not become a client, we typically delete or anonymise enquiry data within a reasonable period. Where you become a client, we retain records for as long as necessary to meet legal, accounting, and tax obligations.' },
     { n: '08', h: 'Data security', body: 'We take appropriate technical and organisational measures to protect your personal information against loss, misuse, and unauthorised access, including encrypted connections and restricted access to enquiry data. While no method of transmission over the internet is completely secure, we work to safeguard your information and to respond promptly to any incident.' },
     { n: '09', h: 'Your rights', body: 'Under UK data protection law you have the right to access your personal data, to have inaccurate data corrected, to request erasure, to restrict or object to processing, and to data portability, as well as the right to withdraw consent at any time. To exercise any of these rights, contact us using the details below and we will respond within one month. If you are unhappy with how we handle your data, you have the right to complain to the Information Commissioner’s Office (ICO) at ico.org.uk.' },
   ];
 
-  // FAQ — copy MUST stay in sync with the FAQPage JSON-LD in index.html <head>.
+  // FAQ copy MUST stay in sync with the FAQPage JSON-LD in index.html <head>.
+  // Prices here are one of FOUR places tier pricing lives (see `tiers` above).
   const faqs = [
-    { q: "How does SAI Social get more people through my venue's doors?", a: "We build a demand engine around your venue: geo-targeted paid ads, scroll-stopping content and a tracked booking funnel. Every campaign is judged on one metric — bodies through the door — so budget flows to whatever actually fills the room, night by night." },
-    { q: 'Which venues does SAI Social work with?', a: "We work with UK hospitality and nightlife: bars, cocktail bars, nightclubs, restaurants, members' clubs and events or festivals. If success looks like a full room, full tables or a sold-out night, we can help." },
-    { q: 'How much does SAI Social cost?', a: 'We work on monthly retainers across three tiers: Foundation (£1,000–1,500/mo) locks down your Google profile, reviews and booking flow; Growth (£2,000–2,500/mo) adds content and targeted paid ads; Full Stack (£3,000–3,500/mo) runs the complete multi-channel engine.' },
-    { q: 'Do you offer a free audit?', a: "Yes. Take the free 2-minute growth quiz on our site to score your venue out of 20 and see which tier fits — no email required. Book a call and we'll also send a free in-depth audit within 24 hours." },
-    { q: 'Will running ads mean discounting my brand?', a: "No. We fill rooms with positioning and demand, not discounts. For Akbar's Glasgow we lifted midweek covers 48% in 90 days without discounting the brand." },
-    { q: 'How quickly will I see results?', a: 'Paid campaigns can start driving bookings within the first few weeks. Our model is Scale, Adapt, Improve — we test creative and offers night to night, then compound what works so rooms get fuller and cost per cover drops over time.' },
+    { q: 'How does SAI Social actually get me more customers?', a: 'We run three things together: short-form social content that gets you seen, a website and search presence that turns interest into a booking or an order, and paid ads pointed at people who are ready to buy. Every campaign is judged on customers and revenue we can attribute. Not impressions.' },
+    { q: 'Who does SAI Social work with?', a: "Most of our work is with restaurants, bars, clubs, takeaways, salons, barbershops, e-commerce businesses, brands, personal brands and agencies. That said, we're open to any business that needs more customers. If you can tell us what a customer is worth to you, we can help." },
+    { q: 'How much does SAI Social cost?', a: 'Three monthly tiers. Bronze is £800/mo: 8 short-form videos a month, a performance report, growth strategy and community management. Silver is £1,500/mo: everything in Bronze plus 20+ videos a month, a full website and SEO, a client dashboard and a weekly strategy call. Gold is custom: everything in Silver plus unlimited tailored video, email marketing and automation, app design and build, a complete brand identity and personal brand build, and priority turnaround.' },
+    { q: "What's the Baseline Guarantee?", a: "We write your real numbers down before we touch anything. If in 90 days they haven't moved, month four is free. Other agencies guarantee impressions. Anyone can double impressions, you can buy them for pennies. Nobody can fake a booking." },
+    { q: 'Do you offer a free audit?', a: "Yes. Take the free 2-minute growth quiz on our site to score your business out of 20 and see which tier fits, with no email required. Book a call and we'll walk you through a full channel-by-channel audit of your business live on the call." },
+    { q: 'Do I need to spend on ads as well?', a: "Not on Bronze. That's content, strategy and community management only. From Silver up we're running paid campaigns, and the media budget is yours and sits separately from the retainer. We'll tell you honestly what it needs to be before you commit." },
+    { q: 'How quickly will I see results?', a: 'Paid campaigns can start driving enquiries within the first few weeks. Content and SEO compound more slowly and keep paying after the ad spend stops. Our model is Scale, Adapt, Improve. We test week to week, then pour budget into whatever is actually winning customers.' },
+    { q: "I already pay someone £300 a month for social media. Why would I pay more?", a: "Because £300 a month usually buys posting, not customers. It typically means a few reels cut from photos you sent, by someone who has never been inside your business, with no offer behind them, no ad spend, and no tracking to tell you whether any of it worked. If yours is bringing you bookings, keep it. If you can't name a single customer it won, that's £3,600 a year buying activity rather than revenue. We film on site, run the ads, build the site the traffic lands on, and report customers and cost per customer against a baseline we record before we start." },
+    { q: 'How much does a social media agency cost in the UK?', a: 'For a small UK business, freelance social media management typically runs £300–£1,200 a month, a full-service agency retainer usually starts around £1,000–£2,500 a month, and a full-time in-house social media manager costs roughly £30,000 a year, or about £3,000 a month once employer’s National Insurance and pension are included. SAI Social charges £800 a month for Bronze and £1,500 for Silver, with media budget paid separately by the client. Buying the same stack piece by piece (videographer, editor, social manager, web developer, SEO, ads manager and software) costs roughly £3,400 a month at low-end UK rates.' },
+    { q: 'Do you guarantee results?', a: "We guarantee the Baseline Guarantee: we record your real numbers in writing before any work starts, and if they haven't moved in 90 days, month four is free. We do not guarantee impressions, views or follower counts. Those are the easiest numbers in marketing to move and the least connected to revenue. Any agency guaranteeing a view count is guaranteeing the thing that costs them least to deliver." },
+    { q: 'Is there a contract or minimum term?', a: 'No minimum term and no setup fee. Bronze and Silver are billed monthly. Gold is quoted on scope. The only thing we ask for up front is agreement on the baseline numbers, because the guarantee is measured against them.' },
   ];
 
   /* --------------------------------------------------------------- HELPERS */
@@ -90,18 +294,48 @@
   const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  /* ------------------------------------------------------------- LOADER */
+  // Spinning logo shown on first paint and on client-side route changes.
+  // Kept deliberately brief. It exists to cover the swap, not to make people
+  // wait. The CSS carries a 3s failsafe in case anything below throws.
+  const loader = $('#loader');
+  let loaderTimer = null;
+
+  function hideLoader() {
+    if (!loader) return;
+    loader.classList.add('is-out');
+  }
+  function showLoader(ms) {
+    if (!loader) return;
+    clearTimeout(loaderTimer);
+    loader.classList.remove('is-out');
+    loaderTimer = setTimeout(hideLoader, ms);
+  }
+
+  if (loader) {
+    // First load: hold until the window has loaded, with a floor so it doesn't
+    // flash on a warm cache and a ceiling so a slow asset can't strand it.
+    const FIRST_LOAD_MIN = 550;
+    const started = Date.now();
+    const finish = () => setTimeout(hideLoader, Math.max(0, FIRST_LOAD_MIN - (Date.now() - started)));
+    if (document.readyState === 'complete') finish();
+    else window.addEventListener('load', finish, { once: true });
+    setTimeout(hideLoader, 2500); // ceiling
+  }
+
   /* ---------------------------------------------------------- ROUTING/VIEWS */
-  const views = { home: $('#view-home'), about: $('#view-about'), privacy: $('#view-privacy') };
+  const views = { home: $('#view-home'), about: $('#view-about'), faq: $('#view-faq'), privacy: $('#view-privacy') };
 
   // Real, crawlable URLs per view. The server (server.js) renders matching
   // <title>/description/canonical on first load; we keep them in sync during
   // client-side navigation so the rendered DOM and tab title stay correct.
   const routeMeta = {
-    home:    { path: '/',        title: 'Marketing Agency for Bars, Clubs & Restaurants | SAI Social', desc: 'SAI Social is a UK marketing agency for bars, clubs, restaurants and events. We run paid ads, content and booking funnels that fill your venue — bodies through the door.' },
-    about:   { path: '/about',   title: 'About SAI Social | Marketing Built for Hospitality & Nightlife', desc: 'Meet SAI Social — a UK performance-marketing team for bars, clubs, restaurants and events. Built on the floor, not in a boardroom. We fill rooms, not feeds.' },
+    home:    { path: '/',        title: 'Social, Web & Paid Ads Agency | SAI Social', desc: 'SAI Social is a UK marketing agency for restaurants, bars, takeaways, salons, e-commerce and brands. Short-form video, websites, SEO and paid ads from £800/month. More customers, not more followers.' },
+    about:   { path: '/about',   title: 'About SAI Social | Social, Web & Paid Ads', desc: 'Meet SAI Social, a UK performance-marketing team running social, web and paid ads for local businesses and brands. We baseline your numbers first and report in plain figures.' },
+    faq:     { path: '/faq',     title: 'FAQ | Pricing, Guarantee & How We Work | SAI Social', desc: "Straight answers on what SAI Social costs, who we work with, the Baseline Guarantee, contracts, and whether a £300/month social media freelancer is worth it." },
     privacy: { path: '/privacy', title: 'Privacy Policy | SAI Social', desc: 'How SAI Social collects, uses and protects your personal data under UK GDPR and the Data Protection Act 2018.' },
   };
-  const pathToView = { '/': 'home', '/about': 'about', '/privacy': 'privacy' };
+  const pathToView = { '/': 'home', '/about': 'about', '/faq': 'faq', '/privacy': 'privacy' };
 
   function applyRouteMeta(v) {
     const m = routeMeta[v]; if (!m) return;
@@ -119,6 +353,11 @@
 
   function setView(v, opts) {
     if (!views[v]) v = 'home';
+    // Brief loader on route changes, but not on the initial render (the
+    // first-load handler above already owns that one).
+    const initial = opts && opts.instant;
+    const changingView = views[v].hidden; // target is currently hidden => real switch
+    if (!initial && changingView) showLoader(420);
     Object.keys(views).forEach((k) => { views[k].hidden = k !== v; });
     applyRouteMeta(v);
     const push = !opts || opts.push !== false;
@@ -155,14 +394,32 @@
   });
 
   /* ------------------------------------------------------------ MOBILE MENU */
+  // The menu overlays the page (position:fixed) instead of pushing it down.
+  // A backdrop element is created on open so taps outside close it.
   const burger = $('#burger');
   const mobileMenu = $('#mobileMenu');
-  function closeMenu() { mobileMenu.hidden = true; burger.setAttribute('aria-expanded', 'false'); }
+  let menuBackdrop = null;
+
+  function closeMenu() {
+    if (mobileMenu.hidden) return;
+    mobileMenu.hidden = true;
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
+    if (menuBackdrop) { menuBackdrop.remove(); menuBackdrop = null; }
+  }
+  function openMenu() {
+    mobileMenu.hidden = false;
+    burger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open');
+    menuBackdrop = document.createElement('div');
+    menuBackdrop.className = 'menu-backdrop';
+    menuBackdrop.addEventListener('click', closeMenu);
+    document.body.appendChild(menuBackdrop);
+  }
   burger.addEventListener('click', () => {
-    const open = mobileMenu.hidden;
-    mobileMenu.hidden = !open;
-    burger.setAttribute('aria-expanded', String(open));
+    if (mobileMenu.hidden) openMenu(); else closeMenu();
   });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
   /* ---------------------------------------------------- MOBILE STICKY CTA */
   // Keeps a persistent "Book a strategy call" button on screen for mobile
@@ -191,15 +448,58 @@
   window.addEventListener('resize', updateCta, { passive: true });
 
   /* ------------------------------------------------------------------ RENDER */
-  // Stats
+  // Stats: reporting commitments. Label-led, not giant display numbers: these are
+  // words, and the old huge-numeral treatment broke them out of their boxes.
   $('#statsGrid').innerHTML = stats.map((s) =>
-    `<div class="stat"><span class="stat-v">${esc(s.v)}</span><span class="stat-l">${esc(s.l)}</span></div>`).join('');
+    `<div class="stat">
+       <span class="stat-n">${esc(s.n)}</span>
+       <span class="stat-v">${esc(s.v)}</span>
+       <span class="stat-l">${esc(s.l)}</span>
+     </div>`).join('');
 
-  // Steps (home + about)
+  // Steps (home + about): horizontal carousel on narrow screens, grid above.
   const stepHtml = steps.map((s) =>
-    `<div class="step"><span class="step-k">${esc(s.k)}</span><p class="step-d">${esc(s.d)}</p><span class="step-w">${esc(s.w)}</span></div>`).join('');
+    `<div class="step"><span class="step-k">${esc(s.k)}</span><span class="step-w">${esc(s.w)}</span><p class="step-d">${esc(s.d)}</p></div>`).join('');
   $('#stepsGrid').innerHTML = stepHtml;
   $('#stepsGridAbout').innerHTML = stepHtml;
+
+  // "£300 a month" comparison table
+  const cheapTable = $('#cheapTable');
+  if (cheapTable) {
+    // One column header on desktop; the per-cell tags below take over once the
+    // grid collapses to a single column and the header would lose its meaning.
+    const head = `
+      <div class="cheap-row cheap-head" aria-hidden="true">
+        <div class="cheap-label"></div>
+        <div class="cheap-a">£300 a month</div>
+        <div class="cheap-b">SAI Social</div>
+      </div>`;
+    cheapTable.innerHTML = head + cheapRows.map((r) => `
+      <div class="cheap-row">
+        <div class="cheap-label">${esc(r.l)}</div>
+        <div class="cheap-a"><span class="cheap-tag">£300/mo</span>${esc(r.a)}</div>
+        <div class="cheap-b"><span class="cheap-tag cheap-tag-us">SAI Social</span>${esc(r.b)}</div>
+      </div>`).join('');
+  }
+
+  // Cost comparison: what the same stack costs bought piece by piece.
+  const costList = $('#costList');
+  if (costList) {
+    const fmt = (n) => '£' + n.toLocaleString('en-GB');
+    const total = buildCosts.reduce((t, c) => t + c.v, 0);
+    costList.innerHTML = buildCosts.map((c) => `
+      <div class="cost-row">
+        <div class="cost-row-main">
+          <span class="cost-n">${esc(c.n)}</span>
+          <span class="cost-d">${esc(c.d)}</span>
+        </div>
+        <span class="cost-v">${fmt(c.v)}<span class="cost-pm">/mo</span></span>
+      </div>`).join('');
+    const totalEl = $('#costTotal');
+    if (totalEl) totalEl.textContent = fmt(total);
+    const saveEl = $('#costSaving');
+    if (saveEl) saveEl.textContent = fmt(total - 1500);
+  }
 
   // Services accordion
   $('#servicesAccordion').innerHTML = services.map((s, i) => `
@@ -260,31 +560,176 @@
     });
   }
 
-  // Case study
-  $('#caseTags').innerHTML = akbarTags.map((t) => `<span class="case-tag">${esc(t)}</span>`).join('');
-  $('#caseStats').innerHTML = akbarStats.map((s) =>
-    `<div class="case-stat"><div class="case-stat-v">${esc(s.v)}</div><div class="case-stat-l">${esc(s.l)}</div></div>`).join('');
-  $('#caseDeep').innerHTML = akbarDeepDive.map((d) =>
-    `<div class="case-deep-item"><div class="case-deep-k">${esc(d.k)}</div><div class="case-deep-h">${esc(d.h)}</div><p>${esc(d.body)}</p></div>`).join('');
-  const caseToggle = $('#caseToggle');
-  const caseWrap = $('#caseDeepWrap');
-  caseToggle.addEventListener('click', () => {
-    const open = !caseWrap.classList.contains('open');
-    caseWrap.classList.toggle('open', open);
-    caseWrap.style.maxHeight = open ? caseWrap.querySelector('.case-deep-inner').scrollHeight + 20 + 'px' : '0';
-    caseToggle.setAttribute('aria-expanded', String(open));
-    $('#caseToggleLabel').textContent = open ? 'Hide the full breakdown' : 'Read the full breakdown';
-  });
+  // Work wall: examples of the kind of content we shoot, carrying NO metrics.
+  // We have no client results; nothing here is presented as one. Deliberately
+  // photographic/documentary rather than stylised. See CLAUDE.md before
+  // regenerating.
+  const wallImgs = [
+    { f: 'barber-cut', a: 'A barber working on a fade in an independent barbershop' },
+    { f: 'cocktail-pour', a: 'A bartender straining a cocktail into a glass' },
+    { f: 'takeaway-hands', a: 'A takeaway order handed across the counter to a customer' },
+    { f: 'salon-blowdry', a: 'A stylist finishing a blow-dry in a hair salon' },
+    { f: 'product-pack', a: 'Hands packing an online order into a mailer' },
+    { f: 'gym-lift', a: 'Someone mid-set on a barbell in an independent gym' },
+    { f: 'cafe-latte', a: 'A barista pouring latte art in a coffee shop' },
+    { f: 'retail-rail', a: 'A customer browsing a rail in an independent boutique' },
+    { f: 'creator-phone', a: 'A business owner filming a piece to camera on a phone' },
+  ];
+  const wallRow = $('#wallRowA');
+  if (wallRow) {
+    // Rendered twice so the marquee can loop seamlessly at -50%.
+    const cell = (im) =>
+      `<figure class="wall-cell"><img src="assets/wall/${esc(im.f)}.jpg" alt="${esc(im.a)}" width="520" height="920" loading="lazy" decoding="async"></figure>`;
+    wallRow.innerHTML = wallImgs.map(cell).join('') + wallImgs.map(cell).join('');
+  }
 
-  // Testimonials
-  $('#testiScroll').innerHTML = testimonials.map((t) => `
-    <figure class="testi">
-      <blockquote>"${esc(t.q)}"</blockquote>
-      <figcaption>
-        <span class="testi-avatar">${esc(t.i)}</span>
-        <span><span class="testi-name">${esc(t.a)}</span><span class="testi-role">${esc(t.r)}</span></span>
-      </figcaption>
-    </figure>`).join('');
+  // Pricing tiers
+  const tierGrid = $('#tierGrid');
+  if (tierGrid) {
+    // Grouped feature lists. The subheads are what stop a 20-item list reading
+    // as padding: they let someone scan for the thing they care about (the
+    // website, the ads) instead of wading through one undifferentiated column.
+    const groupHtml = (g) => `
+      <li class="tier-group">
+        <span class="tier-group-h">${esc(g.h)}</span>
+        <ul class="tier-sub">${g.items.map((p) =>
+          `<li><span class="check">✓</span>${esc(p)}</li>`).join('')}</ul>
+      </li>`;
+
+    // Stated exclusions, not omissions. Bronze runs no ads and saying so is
+    // more persuasive than quietly leaving it off the list.
+    const excludeHtml = (t) => (t.excludes && t.excludes.length ? `
+      <li class="tier-group tier-group-neg">
+        <span class="tier-group-h">Not on this tier</span>
+        <ul class="tier-sub">${t.excludes.map((p) =>
+          `<li><span class="cross" aria-hidden="true">✕</span>${esc(p)}</li>`).join('')}</ul>
+      </li>` : '');
+
+    // The first group stays visible; the rest sit in a <details>. On desktop
+    // that element is rendered open so the full list reads as one column, which
+    // is the whole point of itemising it. On phones the cards live in a
+    // horizontal swipe track, and a 1,600px card two screens tall hides the
+    // swipe affordance entirely, so there it collapses. Rendered open by
+    // default so a JS failure leaves everything readable rather than hidden.
+    tierGrid.innerHTML = tiers.map((t) => {
+      const [first, ...rest] = t.groups;
+      const restHtml = rest.map(groupHtml).join('') + excludeHtml(t);
+      const count = t.groups.reduce((n, g) => n + g.items.length, 0)
+        + (t.excludes ? t.excludes.length : 0);
+      return `
+      <div class="tier${t.featured ? ' tier-featured' : ''}">
+        ${t.featured ? '<span class="tier-badge">Most popular</span>' : ''}
+        <div class="tier-name tier-name-${esc(t.k)}">${esc(t.name)}</div>
+        <div class="tier-price"><span class="tier-price-v">${esc(t.price)}</span><span class="tier-price-p">${esc(t.per)}</span></div>
+        <p class="tier-blurb">${esc(t.blurb)}</p>
+        ${t.inherits ? `<p class="tier-inherits">${esc(t.inherits)}</p>` : ''}
+        <ul class="tier-points">${groupHtml(first)}</ul>
+        <details class="tier-more" open>
+          <summary class="tier-more-s"><span>See all ${count} things included</span></summary>
+          <ul class="tier-points tier-points-rest">${restHtml}</ul>
+        </details>
+        <a class="btn ${t.featured ? 'btn-accent' : 'btn-ghost-dark'} btn-block" data-scroll="contact">${esc(t.cta)}</a>
+      </div>`;
+    }).join('');
+
+    // Collapse only where the carousel makes a tall card a problem.
+    const narrow = window.matchMedia('(max-width:760px)');
+    const details = $$('.tier-more', tierGrid);
+    const syncTierDetails = () => {
+      details.forEach((d) => { d.open = !narrow.matches; });
+    };
+    syncTierDetails();
+    if (narrow.addEventListener) narrow.addEventListener('change', syncTierDetails);
+
+    // Open and close all three together. The cards are equal-height siblings,
+    // so expanding one on its own stretched the other two to match and left
+    // them full of empty space: the tier you opened grew, the ones you were
+    // trying to compare it against just got taller. `guard` stops the toggle
+    // events we fire here from re-entering this handler.
+    let guard = false;
+    details.forEach((d) => {
+      d.addEventListener('toggle', () => {
+        if (guard) return;
+        guard = true;
+        details.forEach((other) => { if (other !== d) other.open = d.open; });
+        guard = false;
+      });
+    });
+  }
+
+  /* --------------------------------------------------- CONTACT DOCK / MENU */
+  (function contactDock() {
+    if (!contactChannels.length) return; // nothing configured yet, ship nothing
+
+    const linkHtml = (c, cls) =>
+      `<a class="${cls} ${cls}-${c.k}" href="${esc(c.href)}"${c.ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>
+         <span class="${cls}-i" aria-hidden="true">${ICONS[c.k]}</span>
+         <span class="${cls}-t"><span class="${cls}-l">${esc(c.label)}</span><span class="${cls}-s">${esc(c.sub)}</span></span>
+       </a>`;
+
+    // Mobile: the same channels live in the burger menu.
+    const mmSocial = $('#mmSocial');
+    if (mmSocial) mmSocial.innerHTML = contactChannels.map((c) => linkHtml(c, 'mms')).join('');
+
+    // Desktop: the floating dock.
+    const dock = $('#contactDock');
+    const panel = $('#dockPanel');
+    const toggle = $('#dockToggle');
+    if (!dock || !panel || !toggle) return;
+
+    panel.innerHTML = contactChannels.map((c) => linkHtml(c, 'dockl')).join('');
+    dock.hidden = false;
+
+    const setOpen = (open) => {
+      panel.hidden = !open;
+      dock.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      $('.dock-label', toggle).textContent = open ? 'Close' : 'Chat';
+    };
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(panel.hidden);
+    });
+
+    // Clicking a channel closes the dock behind it, so returning to the tab
+    // doesn't land on a panel left hanging open.
+    panel.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+
+    document.addEventListener('click', (e) => {
+      if (!panel.hidden && !dock.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) { setOpen(false); toggle.focus(); }
+    });
+  })();
+
+  /* ------------------------------------------------------- HERO ROTATOR */
+  // Cycles the highlighted business type in the H1. Pauses for users who
+  // have asked for reduced motion. The first word just stays put.
+  const rotator = $('#heroRotator');
+  if (rotator) {
+    const words = ['Salon', 'Restaurant', 'Bar', 'Club', 'Takeaway', 'Barbershop', 'Store', 'Brand', 'Business'];
+    rotator.innerHTML = words.map((w, i) =>
+      `<span class="rot-w${i === 0 ? ' on' : ''}">${esc(w)}</span>`).join('');
+    // Reserve the width of the longest word so the line never reflows.
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduced) {
+      const items = $$('.rot-w', rotator);
+      let ri = 0;
+      setInterval(() => {
+        const prev = items[ri];
+        prev.classList.remove('on');
+        prev.classList.add('out');
+        ri = (ri + 1) % items.length;
+        const next = items[ri];
+        // Short hand-off: long enough that two long words don't sit on top of
+        // each other mid-crossfade, short enough that it reads as one motion
+        // rather than the word blinking out and back.
+        setTimeout(() => { prev.classList.remove('out'); next.classList.add('on'); }, 170);
+      }, 2200);
+    }
+  }
 
   // Team
   $('#teamGrid').innerHTML = team.map((m) => `
@@ -303,10 +748,12 @@
   let step = 0;
   let auditTimer = null;
 
+  // Tier prices here MUST match the `tiers` array, the FAQ copy, and the
+  // FAQPage JSON-LD in index.html. Four places. Change one, change all four.
   function tierFor(score) {
-    if (score <= 8) return { name: 'Foundation', price: '£1,000–1,500 / mo', blurb: 'The fundamentals are leaking bookings. We lock down your Google profile, reviews and booking flow first — the fastest wins to stop losing covers you should already be getting.' };
-    if (score <= 14) return { name: 'Growth', price: '£2,000–2,500 / mo', blurb: 'Your basics are solid — now we scale. Consistent content plus targeted paid ads tied to real offers turn steady traffic into a reliably fuller room, week after week.' };
-    return { name: 'Full Stack', price: '£3,000–3,500 / mo', blurb: "You're already doing a lot right. We run the complete engine — multi-channel ads, content and funnels — to compound your advantage and own your local market." };
+    if (score <= 8) return { name: 'Bronze', price: '£800 / month', blurb: "The fundamentals are leaking customers. We get the content engine running and the basics fixed first: 8 videos a month, a growth strategy and community management, so we can see what your audience actually responds to." };
+    if (score <= 14) return { name: 'Silver', price: '£1,500 / month', blurb: "Your basics are solid. Now we scale. 20+ videos a month, a full website and SEO, a client dashboard and a weekly strategy call turn steady interest into customers you can count." };
+    return { name: 'Gold', price: 'Custom', blurb: "You're already doing a lot right. Gold is built around you: unlimited tailored video, email marketing, a complete brand identity and priority turnaround, all of it aimed at compounding your advantage and owning your market." };
   }
 
   function renderAudit() {
@@ -371,9 +818,77 @@
   $('#auditBack').addEventListener('click', () => { step = Math.max(step - 1, 0); renderAudit(); });
   $('#auditReset').addEventListener('click', () => {
     answers.fill(-1); step = 0; renderAudit();
-    scrollToId('quiz');
   });
   renderAudit();
+
+  /* --------------------------------------------------------- QUIZ MODAL */
+  // The quiz is now a dismissible popup rather than a page section. It opens
+  // itself once per browser for first-time visitors, and any [data-quiz]
+  // control opens it on demand after that.
+  const quizModal = $('#quizModal');
+  if (quizModal) {
+    const SEEN_KEY = 'sai_quiz_seen';
+    let lastFocus = null;
+
+    const seen = () => {
+      try { return localStorage.getItem(SEEN_KEY) === '1'; } catch (e) { return false; }
+    };
+    const markSeen = () => {
+      try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) { /* private mode, fine */ }
+    };
+
+    function openQuiz() {
+      if (!quizModal.hidden) return;
+      lastFocus = document.activeElement;
+      quizModal.hidden = false;
+      document.body.classList.add('modal-open');
+      markSeen();
+      const close = $('.modal-close', quizModal);
+      if (close) close.focus();
+    }
+    function closeQuiz() {
+      if (quizModal.hidden) return;
+      quizModal.hidden = true;
+      document.body.classList.remove('modal-open');
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-quiz]')) { e.preventDefault(); closeMenu(); openQuiz(); return; }
+      if (e.target.closest('[data-quiz-close]')) { e.preventDefault(); closeQuiz(); }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeQuiz();
+    });
+    // Keep tab focus inside the dialog while it's open.
+    quizModal.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const f = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', quizModal)
+        .filter((el) => el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    // First-time visitors: offer it once they've shown a little intent.
+    // whichever comes first, 15s or a third of the way down the page.
+    if (!seen()) {
+      let fired = false;
+      const auto = () => {
+        if (fired || seen()) return;
+        fired = true;
+        window.removeEventListener('scroll', onScroll);
+        openQuiz();
+      };
+      const onScroll = () => {
+        const depth = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+        if (depth > 0.33) auto();
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      setTimeout(auto, 15000);
+    }
+  }
 
   /* ------------------------------------------------------------ BG VIDEO */
   const bgVideo = $('#bgVideo');
@@ -406,34 +921,67 @@
   const submitBtn = $('#formSubmit');
   const errorBox = $('#formError');
 
+  // Stamped when the page loads and sent with the submission. The server
+  // treats a sub-3-second completion as a bot. See /api/booking in server.js.
+  const formLoadedAt = Date.now();
+
+  // Same shape as the server's check, so an obvious typo is caught here rather
+  // than costing a round trip. The server still validates: this is UX, not
+  // security, and anything client-side can be bypassed.
+  const looksLikeEmail = (v) => /^[^\s@,;<>"]+@[^\s@,;<>"]+\.[^\s@,;<>"]{2,}$/.test(v);
+
+  const INBOX = 'saimanagement77@gmail.com';
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     errorBox.hidden = true;
 
     const data = Object.fromEntries(new FormData(form).entries());
     if (!data.name || !data.venue || !data.email) {
-      showError('Please fill in your name, venue and email.');
+      showError('Please fill in your name, business and email.');
       return;
     }
+    if (!looksLikeEmail(data.email.trim())) {
+      showError("That email address doesn't look right. Please check it and try again.");
+      return;
+    }
+    data.t = formLoadedAt;
 
     submitBtn.disabled = true;
     const originalHtml = submitBtn.innerHTML;
     submitBtn.textContent = 'Sending…';
 
     try {
-      const res = await fetch('/api/booking', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      // Don't hang forever on a dead network: fail with a usable message and
+      // give them the inbox address instead.
+      const ctl = new AbortController();
+      const timeout = setTimeout(() => ctl.abort(), 15000);
+      let res;
+      try {
+        res = await fetch('/api/booking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          signal: ctl.signal,
+        });
+      } finally {
+        clearTimeout(timeout);
+      }
+
       const json = await res.json().catch(() => ({}));
-      if (!res.ok || !json.ok) throw new Error(json.error || 'Request failed');
+      if (!res.ok || !json.ok) {
+        // Surface the server's own wording where it has some (bad email,
+        // rate limited). A generic "something went wrong" for a rate limit
+        // just makes people submit again and dig deeper into the limit.
+        throw new Error(json.error || '');
+      }
       form.hidden = true;
       $('#formSuccess').hidden = false;
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalHtml;
-      showError("Something went wrong sending your details. Please try again, or email us directly.");
+      const detail = err && err.message ? err.message : '';
+      showError(detail || `Something went wrong sending your details. Please try again, or email us at ${INBOX}.`);
     }
   });
 
@@ -442,12 +990,12 @@
     form.hidden = false;
     $('#formSuccess').hidden = true;
     submitBtn.disabled = false;
-    submitBtn.innerHTML = 'Get my free teardown <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7V16"></path></svg>';
+    submitBtn.innerHTML = 'Book my free audit call <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H8M17 7V16"></path></svg>';
   });
 
   function showError(msg) { errorBox.textContent = msg; errorBox.hidden = false; }
 
   // Establish the initial view from the URL (server serves the SPA shell for
-  // /about and /privacy) — this also sets the sticky CTA state via setView().
+  // /about and /privacy). This also sets the sticky CTA state via setView().
   setView(pathToView[location.pathname] || 'home', { push: false, instant: true });
 })();

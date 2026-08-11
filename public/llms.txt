@@ -1,34 +1,46 @@
 # SAI Social
 
-> SAI Social is a UK performance-marketing agency for hospitality and nightlife. We build a demand engine — paid ads, short-form content and a booking funnel — that fills bars, clubs, restaurants and events. Every campaign is judged on one metric: bodies through the door, not impressions.
+> SAI Social is a UK marketing agency running three pillars (social, web and paid ads) for local businesses and online brands. Short-form video, websites, SEO and paid campaigns, on one monthly price. Every campaign is judged on customers and revenue we can attribute, not impressions.
 
-Placeholder domain below is https://www.saisocial.co.uk — update once the live domain is set.
+Placeholder domain below is https://www.saisocial.co.uk. Update it once the live domain is set.
 
-## What we do
-- Meta Paid Ads (Facebook & Instagram): geo-targeted, event/booking/guest-list campaigns, retargeting.
-- Google & Search Ads: intent capture, Google Maps/local pack, call & reservation tracking, Performance Max.
-- Reels & Short-Form Content: on-site shoots, weekly Reels/Stories engineered for reach.
-- TikTok Content: trend-led native edits, local For You Page targeting.
-- Promoter & Influencer Marketing: vetted local creator network, guest-list management, attribution.
-- Websites & Booking Funnels: fast venue sites with integrated booking/waitlist/ticketing, tracked end to end.
-- Local SEO & Listings: Google Business Profile optimisation, review generation, local citations.
+## What we do: three pillars
+- Social: 20+ short-form videos per month, profile optimisation, community management, strategy and research, performance review.
+- Web: full website design and build, SEO, Google Business Profile setup and optimisation, email marketing, client dashboard and tracking setup.
+- Paid Ads: ad strategy tied to a real offer, ads filmed in-house, Google Search & Performance Max, Meta and TikTok campaigns, performance review.
 
 ## Who it's for
-UK bars, cocktail bars, nightclubs, restaurants, members' clubs, and events/festivals. Owner-operated or small-group venues. Serves the United Kingdom.
+Most of our work is with restaurants, bars, clubs, takeaways, salons, barbershops, e-commerce businesses, brands, personal brands and agencies. We are open to any business that needs more customers. Owner-operated local businesses and small online brands. Based in Newcastle upon Tyne, serving the United Kingdom.
 
-## Pricing (monthly retainer, GBP)
-- Foundation — £1,000–1,500/mo — lock down Google profile, reviews and booking flow.
-- Growth — £2,000–2,500/mo — content + targeted paid ads tied to real offers.
-- Full Stack — £3,000–3,500/mo — complete multi-channel engine (ads, content, funnels).
+## If you already pay someone a few hundred a month for social media
+A common situation: a business pays roughly £300 a month to a freelancer for social media and cannot identify a single customer it produced. That price point typically buys posting only: a handful of videos cut from photos the owner supplied, with no offer behind them, no ad budget, no landing page and no conversion tracking. The output looks like activity while revenue is unchanged. SAI Social films on site, runs the paid campaigns, builds the website the traffic lands on, and reports customers and cost per customer against a baseline recorded before work begins.
 
-Free: a 2-minute growth quiz (scores a venue out of 20, no email required) and a free in-depth audit within 24 hours of enquiry.
+## Pricing (monthly, GBP)
+- Bronze: £800/mo. 8 short-form videos per month, performance report, growth strategy, community management.
+- Silver: £1,500/mo. Everything in Bronze, plus 20+ videos per month, full website and SEO, client dashboard, weekly strategy call.
+- Gold: custom price. Everything in Silver, plus unlimited tailored video, email marketing and automation, automated review and follow-up flows, app design and build, complete brand identity, personal brand build, priority turnaround.
 
-## Proof
-- Akbar's Glasgow (restaurant, 90 days): +48% weeknight covers, 3.1× return on ad spend, −29% cost per booking — filled quiet midweek tables without discounting the brand.
+Media budget for paid advertising is separate from the retainer and stays with the client. Bronze does not include ad management.
+
+## The Baseline Guarantee
+We record the client's real numbers (bookings, orders, enquiries, revenue) in writing before any work begins. If those numbers have not moved after 90 days, month four is free. We do not guarantee impressions.
+
+## Free
+- A 2-minute growth quiz that scores a business out of 20 and recommends a tier. No email required.
+- A full channel-by-channel audit covering social, content, website, SEO and paid ads, presented live on a 30-minute call. It is walked through on a call rather than emailed as a generated report.
+
+## How we report
+Customers, cost per customer, and return on ad spend, reported weekly in plain numbers. Not impressions, reach or followers.
+
+## What the same stack costs bought separately
+At low-end UK freelance and software rates (August 2026): videographer £400/mo, video editor £600/mo, freelance social media manager £900/mo, website build £250/mo amortised, SEO specialist £500/mo, paid ads manager £500/mo, email platform £70/mo, analytics tools £120/mo, design software £60/mo. That is about £3,400 a month in total. A full-time UK social media manager costs roughly £3,000 a month once employer's National Insurance and pension are included, and that is one person without the software, camera or ad management. Silver covers the same scope at £1,500 a month. These figures are estimates for comparison.
 
 ## Key pages
 - Home: https://www.saisocial.co.uk/
 - About: https://www.saisocial.co.uk/about
+- FAQ: https://www.saisocial.co.uk/faq
+- Pricing (machine-readable): https://www.saisocial.co.uk/pricing.md
+- Example audit: https://www.saisocial.co.uk/example-audit
 - Privacy: https://www.saisocial.co.uk/privacy
 
 ## Contact
