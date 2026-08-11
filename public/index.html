@@ -351,7 +351,23 @@
   </section>
 
   <!-- HOW IT WORKS -->
-  <section id="process" class="process-section">
+  <section id="process" class="process-section has-deco">
+    <!-- Ambient decor. Purely visual: aria-hidden, pointer-events:none, and
+         clipped by .has-deco so it cannot widen the page. -->
+    <div class="deco" aria-hidden="true">
+      <div class="deco-item deco-globe-process deco-float">
+        <img class="deco-spin" src="assets/globe-white.png" alt="" loading="lazy" decoding="async">
+      </div>
+      <div class="deco-item deco-orbit-process deco-float" style="animation-delay:-6s">
+        <svg class="orbit" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="94"></circle>
+          <circle cx="100" cy="100" r="62"></circle>
+          <circle cx="100" cy="100" r="30"></circle>
+          <g class="orbit-spin"><circle class="orbit-dot" cx="100" cy="6" r="5"></circle></g>
+          <g class="orbit-spin orbit-spin-b"><circle class="orbit-dot-soft" cx="100" cy="38" r="3.5"></circle></g>
+        </svg>
+      </div>
+    </div>
     <div class="reveal wrap">
       <span class="eyebrow eyebrow-accent"><span class="rule"></span>How it works</span>
       <h2 class="h2-light" style="margin-bottom:14px">Six steps. Nothing skipped.</h2>
@@ -401,7 +417,19 @@
   </section>
 
   <!-- THE £300 PROBLEM -->
-  <section id="cheap" class="cheap-section">
+  <section id="cheap" class="cheap-section has-deco">
+    <div class="deco" aria-hidden="true">
+      <div class="deco-item deco-orbit-cheap deco-float" style="animation-delay:-3s">
+        <svg class="orbit" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="96"></circle>
+          <circle cx="100" cy="100" r="70"></circle>
+          <circle cx="100" cy="100" r="44"></circle>
+          <circle cx="100" cy="100" r="18"></circle>
+          <g class="orbit-spin"><circle class="orbit-dot" cx="100" cy="4" r="4.5"></circle></g>
+          <g class="orbit-spin orbit-spin-c"><circle class="orbit-dot-soft" cx="100" cy="30" r="3"></circle></g>
+        </svg>
+      </div>
+    </div>
     <div class="reveal wrap">
       <div class="services-head">
         <div>
@@ -439,7 +467,13 @@
   </section>
 
   <!-- PRICING -->
-  <section id="pricing" class="pricing-section">
+  <section id="pricing" class="pricing-section has-deco">
+    <!-- Light section, so the dark globe. globe-white.png is invisible here. -->
+    <div class="deco" aria-hidden="true">
+      <div class="deco-item deco-globe-pricing deco-float" style="animation-delay:-9s">
+        <img class="deco-spin deco-spin-rev" src="assets/globe.png" alt="" loading="lazy" decoding="async">
+      </div>
+    </div>
     <div class="reveal wrap">
       <div class="services-head">
         <div>
@@ -479,7 +513,19 @@
   </section>
 
   <!-- CONTACT / FORM -->
-  <section id="contact" class="contact-section">
+  <section id="contact" class="contact-section has-deco">
+    <div class="deco" aria-hidden="true">
+      <div class="deco-item deco-globe-contact deco-float" style="animation-delay:-4s">
+        <img class="deco-spin" src="assets/globe-white.png" alt="" loading="lazy" decoding="async">
+      </div>
+      <div class="deco-item deco-orbit-contact deco-float" style="animation-delay:-11s">
+        <svg class="orbit" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="92"></circle>
+          <circle cx="100" cy="100" r="56"></circle>
+          <g class="orbit-spin orbit-spin-b"><circle class="orbit-dot" cx="100" cy="8" r="4"></circle></g>
+        </svg>
+      </div>
+    </div>
     <div class="reveal wrap contact-grid">
       <div>
         <span class="eyebrow eyebrow-accent"><span class="rule"></span>Book a strategy call</span>
@@ -599,8 +645,16 @@
     <div class="reveal wrap">
       <span class="eyebrow eyebrow-muted"><span class="rule"></span>The team</span>
       <h2 class="h2-light" style="font-size:clamp(1.8rem,4.4vw,3rem)">Small team. Real numbers.</h2>
-      <p class="team-lead">Deliberately small. You deal with the people doing the work. Not an account manager relaying it to someone you'll never meet.</p>
+      <p class="team-lead">Three people run your account, and these are them. You deal with the people doing the work — not an account manager relaying it to someone you'll never meet.</p>
       <div class="team-grid" id="teamGrid"></div>
+
+      <div class="crew">
+        <div class="crew-head">
+          <h3 class="crew-h">And a bench behind them.</h3>
+          <p class="crew-p">Editors, videographers, designers and developers work on your account every week. You don't have to manage any of them, chase them, or learn their names — that's the point of the three above. One team, one invoice, one point of contact.</p>
+        </div>
+        <ul class="crew-list" id="crewList"></ul>
+      </div>
     </div>
   </section>
 

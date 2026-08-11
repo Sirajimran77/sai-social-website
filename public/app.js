@@ -246,11 +246,26 @@
   // Case study + testimonials removed until there are real client results to publish.
   // Restore instructions and the original markup: content/parked-social-proof.md
 
+  // The three people a client actually deals with — named, pictured, contactable.
+  // `w` is what they own week to week. Everyone else works behind them (see `crew`).
   const team = [
-    { i: 'SI', n: 'Siraj Imran', r: 'Founder / Strategy', img: 'assets/team-siraj.jpg' },
-    { i: 'TI', n: 'Tayyab I.', r: 'Content Director' },
-    { i: 'EK', n: 'Ethan K.', r: 'Paid Media Lead', img: 'assets/team-ethan.jpg' },
-    { i: 'TL', n: 'Theo L.', r: 'Web & Funnels' },
+    { i: 'SI', n: 'Siraj Imran', r: 'Founder / Strategy', img: 'assets/team-siraj.jpg',
+      w: 'Your first call, your strategy and your numbers. Runs the audit and the monthly review.',
+      gold: true },
+    { i: 'TI', n: 'Tayyab I.', r: 'Content Director',
+      w: 'Runs your shoot days and signs off every video before it goes near your account.' },
+    { i: 'EK', n: 'Ethan K.', r: 'Paid Media Lead', img: 'assets/team-ethan.jpg',
+      w: 'Owns your ad spend across Meta, TikTok and Google. Reports what each customer cost.' },
+  ];
+
+  // The bench. Deliberately unnamed — clients never have to chase them, and the three
+  // above stay the only contacts. Roles only, no invented headcounts.
+  const crew = [
+    { r: 'Video editors',        d: 'Turning shoot days into 20+ finished cuts a month' },
+    { r: 'Videographers',        d: 'Second camera and overflow shoots when a launch needs it' },
+    { r: 'Design & motion',      d: 'Titles, captions, thumbnails, ad creative and brand assets' },
+    { r: 'Web & development',    d: 'Builds, landing pages, tracking and the client dashboard' },
+    { r: 'SEO & copy',           d: 'Local search, Google Business Profile, page and ad copy' },
   ];
 
   const auditData = [
@@ -704,6 +719,74 @@
     });
   })();
 
+  /* --------------------------------------------------- AMBIENT DECOR PARALLAX */
+  // Drifts the background globes and orbit rings against the scroll so the
+  // sections feel like they have depth rather than a flat watermark.
+  //
+  // Cheap on purpose. Three guards keep it that way:
+  //   - an IntersectionObserver means only decor currently on screen is touched
+  //   - one passive scroll listener, coalesced into a single rAF
+  //   - transform only, so it never triggers layout or paint
+  // Skipped entirely for reduced-motion users and on narrow screens, where the
+  // effect is barely visible and the GPU budget is tighter.
+  (function decorParallax() {
+    const items = $$('.deco-item');
+    if (!items.length) return;
+
+    const motionOK = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const wideOK = window.matchMedia && window.matchMedia('(min-width:761px)').matches;
+    if (!motionOK || !wideOK) return;
+
+    // Document-space anchor per item, measured once. Reading it on every frame
+    // via getBoundingClientRect would force a layout each time; from a cached
+    // anchor the scroll handler does pure arithmetic and touches no geometry.
+    const MAX = 60; // px. Unclamped drift reached ~120px and pulled the decor
+                    // visibly out of position on long sections.
+    const tracked = items.map((el) => ({
+      el,
+      // Alternating strengths so they don't all move as one flat sheet.
+      depth: (el.classList.contains('deco-globe-process') || el.classList.contains('deco-globe-contact')) ? 0.12 : 0.07,
+      base: 0,
+    }));
+
+    const measure = () => {
+      const y = window.scrollY || window.pageYOffset;
+      tracked.forEach((t) => {
+        // Neutralise any parallax already applied before measuring, or the
+        // offset compounds every time we re-measure.
+        t.el.style.setProperty('--par', '0px');
+      });
+      tracked.forEach((t) => {
+        const r = t.el.getBoundingClientRect();
+        t.base = r.top + y + r.height / 2;
+      });
+    };
+
+    let queued = false;
+    const apply = () => {
+      queued = false;
+      const centre = (window.scrollY || window.pageYOffset) + window.innerHeight / 2;
+      for (const t of tracked) {
+        let offset = (centre - t.base) * t.depth;
+        if (offset > MAX) offset = MAX;
+        else if (offset < -MAX) offset = -MAX;
+        // A custom property rather than `transform`: it composes with the float
+        // keyframes, where writing transform directly would cancel them.
+        t.el.style.setProperty('--par', `${offset.toFixed(1)}px`);
+      }
+    };
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(apply);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => { measure(); onScroll(); }, { passive: true });
+    measure();
+    apply();
+  })();
+
   /* ------------------------------------------------------- HERO ROTATOR */
   // Cycles the highlighted business type in the H1. Pauses for users who
   // have asked for reduced motion. The first word just stays put.
@@ -716,28 +799,95 @@
     const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduced) {
       const items = $$('.rot-w', rotator);
+      const ROTATE_MS = 2200;
+      // Short hand-off: long enough that two long words don't sit on top of
+      // each other mid-crossfade, short enough that it reads as one motion
+      // rather than the word blinking out and back.
+      const HANDOFF_MS = 170;
+
       let ri = 0;
-      setInterval(() => {
+      let tickTimer = null;
+      let handoffTimer = null;
+
+      // Enforce the invariant this thing lives or dies by: exactly one word
+      // carries `on`, and nothing is left `out`. Written as a toggle over every
+      // item rather than an add on one of them, so the state is recomputed from
+      // `ri` each time instead of accumulated. That is what makes a mis-step
+      // self-correcting rather than permanent.
+      //
+      // It has to be airtight because `.rot-w.on` switches to position:relative:
+      // two words with `on` both take up flow and render side by side, which is
+      // how this surfaced ("RestaurantBrand" in the headline).
+      const settle = (index) => {
+        items.forEach((el, i) => {
+          el.classList.toggle('on', i === index);
+          el.classList.remove('out');
+        });
+      };
+
+      // A strictly sequential chain, NOT setInterval. setInterval keeps its own
+      // schedule, so a throttled or backgrounded tab could fire a second tick
+      // inside the 170ms hand-off window. `ri` was advanced by the first tick
+      // but `on` had not been applied yet, so the second tick's remove('on') hit
+      // a word that did not have it, the pending hand-off then added `on` to
+      // that same word, and nothing ever removed it again. Here the next tick is
+      // only scheduled once the hand-off has finished, so the two can never
+      // interleave and there is at most one pending timer at any moment.
+      const tick = () => {
+        tickTimer = null;
         const prev = items[ri];
+        const nextIndex = (ri + 1) % items.length;
         prev.classList.remove('on');
         prev.classList.add('out');
-        ri = (ri + 1) % items.length;
-        const next = items[ri];
-        // Short hand-off: long enough that two long words don't sit on top of
-        // each other mid-crossfade, short enough that it reads as one motion
-        // rather than the word blinking out and back.
-        setTimeout(() => { prev.classList.remove('out'); next.classList.add('on'); }, 170);
-      }, 2200);
+        handoffTimer = setTimeout(() => {
+          handoffTimer = null;
+          ri = nextIndex;
+          settle(ri);
+          tickTimer = setTimeout(tick, ROTATE_MS - HANDOFF_MS);
+        }, HANDOFF_MS);
+      };
+
+      const stop = () => {
+        clearTimeout(tickTimer);
+        clearTimeout(handoffTimer);
+        tickTimer = handoffTimer = null;
+      };
+      const start = () => {
+        if (!tickTimer && !handoffTimer) tickTimer = setTimeout(tick, ROTATE_MS - HANDOFF_MS);
+      };
+
+      // Don't run in a hidden tab. This removes the throttling that triggered
+      // the race in the first place, and re-settling on the way back repairs
+      // the half-finished hand-off we may have cut short on the way out.
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stop();
+        } else {
+          settle(ri);
+          start();
+        }
+      });
+
+      settle(ri);
+      start();
     }
   }
 
-  // Team
+  // Team — the three named contacts, then the unnamed bench behind them.
   $('#teamGrid').innerHTML = team.map((m) => `
     <div class="team-card">
       ${m.img ? `<img class="team-img" src="${esc(m.img)}" alt="${esc(m.n)}, SAI Social" loading="lazy" decoding="async">` : `<span class="team-badge">${esc(m.i)}</span>`}
       <div class="team-n">${esc(m.n)}</div>
       <div class="team-r">${esc(m.r)}</div>
+      <p class="team-w">${esc(m.w)}</p>
+      <span class="team-tag${m.gold ? ' team-tag-gold' : ''}">Your contact</span>
     </div>`).join('');
+
+  $('#crewList').innerHTML = crew.map((c) => `
+    <li class="crew-item">
+      <span class="crew-r">${esc(c.r)}</span>
+      <span class="crew-d">${esc(c.d)}</span>
+    </li>`).join('');
 
   // Privacy
   $('#privacySections').innerHTML = privacySections.map((s) =>
