@@ -1127,6 +1127,12 @@
       }
       form.hidden = true;
       $('#formSuccess').hidden = false;
+
+      // Report the conversion to Google Ads. Defined in /gtag-init.js, which is
+      // a no-op when tracking is off, so no guard is needed here. Wrapped
+      // anyway: an ad-blocker can leave the function undefined, and a tracking
+      // failure must never break the success state of a real enquiry.
+      try { window.saiTrackConversion && window.saiTrackConversion(); } catch (_) { /* never block the form */ }
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalHtml;

@@ -81,6 +81,8 @@ On a PaaS instead, any host that runs Node 18+ works — e.g. **Render**,
 | `NODE_ENV` | – | – | `production` enables HSTS + proxy-aware rate limiting |
 | `SITE_ORIGIN` | – | `https://www.saisocial.co.uk` | Canonical URLs, sitemap, allowed form origin |
 | `EXTRA_ORIGINS` | – | – | Extra comma-separated origins allowed to POST the form |
+| `GOOGLE_ADS_ID` | – | – | `AW-XXXXXXXXXX`. Enables the conversion tag **and** the Google hosts in the CSP |
+| `GOOGLE_ADS_CONVERSION_LABEL` | – | – | Label of the booking conversion action. Without it, no conversion is reported |
 
 ## Notes & things to finish before launch
 

@@ -40,6 +40,32 @@ const TO_EMAIL = process.env.TO_EMAIL || 'saimanagement77@gmail.com';
 // Override with SITE_ORIGIN once the real domain is live.
 const SITE_ORIGIN = (process.env.SITE_ORIGIN || 'https://www.saisocial.co.uk').replace(/\/$/, '');
 
+/* --------------------------------------------------- Google Ads conversions */
+// Both blank = tracking is off and the CSP below stays locked to 'self'. That
+// is the default: we don't widen the policy for a tag nobody is using.
+//   GOOGLE_ADS_ID                - the AW-XXXXXXXXXX conversion account id
+//   GOOGLE_ADS_CONVERSION_LABEL  - the per-action label from the conversion
+//                                  action screen. Without it the tag loads but
+//                                  no conversion is ever recorded, which is the
+//                                  easy mistake to make here.
+// Validated rather than trusted: these values are interpolated into JavaScript
+// served to every visitor, so anything unexpected is dropped instead of
+// escaped. An env var is not attacker-controlled today, but a typo that
+// silently produces broken JS costs a campaign's worth of data.
+const rawAdsId = (process.env.GOOGLE_ADS_ID || '').trim();
+const rawAdsLabel = (process.env.GOOGLE_ADS_CONVERSION_LABEL || '').trim();
+const GOOGLE_ADS_ID = /^AW-\d{6,}$/.test(rawAdsId) ? rawAdsId : '';
+const GOOGLE_ADS_CONVERSION_LABEL = /^[A-Za-z0-9_-]{1,64}$/.test(rawAdsLabel) ? rawAdsLabel : '';
+const ADS_ENABLED = Boolean(GOOGLE_ADS_ID);
+
+if (rawAdsId && !GOOGLE_ADS_ID) {
+  console.warn(`⚠ GOOGLE_ADS_ID "${rawAdsId}" is not a valid AW-XXXXXXXXXX id — conversion tracking is OFF.`);
+}
+if (ADS_ENABLED && !GOOGLE_ADS_CONVERSION_LABEL) {
+  console.warn('⚠ GOOGLE_ADS_ID is set but GOOGLE_ADS_CONVERSION_LABEL is not. ' +
+    'The tag will load and record page views, but booking conversions will NOT be reported to Google Ads.');
+}
+
 /* ------------------------------------------------------ security headers */
 // Content-Security-Policy is the real prize here: it is what stops an injected
 // <script> from executing even if something ever does get through. Tuned to
@@ -53,17 +79,39 @@ const SITE_ORIGIN = (process.env.SITE_ORIGIN || 'https://www.saisocial.co.uk').r
 //                        build step to hash them. Style injection is a far
 //                        smaller problem than script injection.
 //   font/style hosts    - Google Fonts, loaded from the <head>.
+//
+// Google Ads conversion tracking needs several Google hosts allowed, so those
+// entries are added ONLY when GOOGLE_ADS_ID is configured. Widening the policy
+// unconditionally would weaken it for a tag that isn't running.
+//
+// Note there is still no 'unsafe-inline' in script-src: the tag bootstrap is
+// served from /gtag-init.js (same origin) rather than pasted inline, so the
+// snippet Google gives you does not need a hash and cannot drift out of sync
+// with one.
+const adsScriptSrc = ['https://www.googletagmanager.com', 'https://www.googleadservices.com'];
+const adsImgSrc = [
+  'https://www.google.com', 'https://www.google.co.uk',
+  'https://www.googleadservices.com', 'https://googleads.g.doubleclick.net',
+];
+const adsConnectSrc = [
+  'https://www.googletagmanager.com', 'https://www.google-analytics.com',
+  'https://region1.google-analytics.com', 'https://www.google.com',
+  'https://googleads.g.doubleclick.net', 'https://pagead2.googlesyndication.com',
+];
+const adsFrameSrc = ['https://td.doubleclick.net', 'https://www.googletagmanager.com'];
+
 app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: false,
     directives: {
       'default-src': ["'self'"],
-      'script-src': ["'self'"],
+      'script-src': ["'self'", ...(ADS_ENABLED ? adsScriptSrc : [])],
       'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
       'font-src': ["'self'", 'https://fonts.gstatic.com'],
-      'img-src': ["'self'", 'data:'],
+      'img-src': ["'self'", 'data:', ...(ADS_ENABLED ? adsImgSrc : [])],
       'media-src': ["'self'"],
-      'connect-src': ["'self'"],
+      'connect-src': ["'self'", ...(ADS_ENABLED ? adsConnectSrc : [])],
+      ...(ADS_ENABLED ? { 'frame-src': adsFrameSrc } : {}),
       'form-action': ["'self'"],
       'frame-ancestors': ["'none'"],
       'base-uri': ["'self'"],
@@ -226,6 +274,55 @@ app.get('/robots.txt', (_req, res) => {
     '',
   ].join('\n');
   res.type('text/plain').send(body);
+});
+
+// Google Ads bootstrap. Always served (so index.html can reference it
+// unconditionally) but emits a no-op when tracking isn't configured — the page
+// must never 404 a script it asks for.
+//
+// It defines window.saiTrackConversion(), which app.js calls after a successful
+// booking. When tracking is off that function still exists and does nothing, so
+// the form code needs no conditionals.
+app.get('/gtag-init.js', (_req, res) => {
+  res.type('application/javascript').set('Cache-Control', 'no-cache');
+
+  if (!ADS_ENABLED) {
+    return res.send('/* Google Ads tracking disabled (no GOOGLE_ADS_ID set). */\n'
+      + 'window.saiTrackConversion = function () {};\n');
+  }
+
+  const sendTo = GOOGLE_ADS_CONVERSION_LABEL
+    ? `${GOOGLE_ADS_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
+    : '';
+
+  res.send(`/* Google Ads conversion tracking — generated by server.js */
+(function () {
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}';
+  document.head.appendChild(s);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', '${GOOGLE_ADS_ID}');
+
+  var SEND_TO = ${JSON.stringify(sendTo)};
+
+  // Called by app.js when a booking enquiry is accepted. Fires once per
+  // submission. If the label is missing we log rather than fail silently —
+  // a conversion tag that reports nothing is worse than no tag, because the
+  // campaign looks like it simply isn't converting.
+  window.saiTrackConversion = function () {
+    if (!SEND_TO) {
+      console.warn('[sai] GOOGLE_ADS_CONVERSION_LABEL not set — conversion not reported.');
+      return;
+    }
+    gtag('event', 'conversion', { send_to: SEND_TO });
+  };
+}());
+`);
 });
 
 // Machine-readable pricing for AI agents comparing providers on a buyer's
