@@ -720,7 +720,7 @@
   })();
 
   /* --------------------------------------------------- AMBIENT DECOR PARALLAX */
-  // Drifts the background globes and orbit rings against the scroll so the
+  // Drifts the background globes against the scroll so the
   // sections feel like they have depth rather than a flat watermark.
   //
   // Cheap on purpose. Three guards keep it that way:

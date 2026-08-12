@@ -778,10 +778,10 @@ body.modal-open{overflow:hidden}
 .hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 
 /* ==================== AMBIENT DECOR ====================
-   Wireframe globes and orbit rings drifting behind a few sections. The motif
-   is deliberately the one already on the page (the stats/footer globe) rather
-   than a new visual language, and it reuses the two globe PNGs that are
-   already downloaded, so it costs no extra requests.
+   Wireframe globes drifting behind a few sections. The motif is deliberately
+   the one already on the page (the stats/footer globe) rather than a new
+   visual language, and it reuses the two globe PNGs that are already
+   downloaded, so it costs no extra requests.
 
    Three rules this must never break:
      1. Never intercept a click  -> pointer-events:none on the whole layer.
@@ -811,42 +811,22 @@ body.modal-open{overflow:hidden}
 .deco-spin{animation:spin 150s linear infinite;display:block;width:100%;height:auto}
 .deco-spin-rev{animation:spin 190s linear infinite reverse}
 
-/* Orbit rings: the "we track things" motif, and the one piece of real motion.
-   transform-box:view-box is required or the rotation origin resolves against
-   each circle's own bounding box and the dots fly off. */
-.orbit{display:block;width:100%;height:auto;overflow:visible}
-/* Ring opacity is set on the rings themselves, NOT on the container. Fading
-   the whole SVG also fades the travelling dots, and the dots are the only
-   thing here that actually reads as motion. */
-.orbit circle{fill:none;stroke:currentColor;stroke-width:1;opacity:.5}
-.orbit-spin{transform-box:view-box;transform-origin:100px 100px;animation:spin 26s linear infinite}
-.orbit-spin-b{animation-duration:17s;animation-direction:reverse}
-.orbit-spin-c{animation-duration:38s}
-.orbit-dot{fill:var(--accent);stroke:none;opacity:1}
-.orbit-dot-soft{fill:currentColor;stroke:none;opacity:.75}
-
 /* Per-placement sizing and position. Percentages keep them roughly in the same
    spot as the section reflows. */
-.deco-globe-process{right:-9%;bottom:-34%;width:min(46vw,560px);color:#fff;opacity:.07}
-.deco-orbit-process{left:-6%;top:-12%;width:min(26vw,300px);color:var(--ink-500)}
-.deco-orbit-cheap{right:2%;top:5%;width:min(26vw,300px);color:var(--ink-500)}
+.deco-globe-process{right:-9%;bottom:-34%;width:min(46vw,560px);opacity:.07}
 .deco-globe-pricing{left:-12%;top:-22%;width:min(40vw,480px);opacity:.06}
-.deco-globe-contact{right:-12%;top:-10%;width:min(44vw,540px);color:#fff;opacity:.07}
-.deco-orbit-contact{left:-4%;bottom:-10%;width:min(21vw,250px);color:var(--ink-500)}
+.deco-globe-contact{right:-12%;top:-10%;width:min(44vw,540px);opacity:.07}
 
 /* Thin out on small screens: less room, less GPU, and the decor competes with
    the copy far more when the column is narrow. */
 @media(max-width:760px){
-  .deco-orbit-process,
-  .deco-orbit-contact{display:none}
   .deco-globe-process,
   .deco-globe-pricing,
   .deco-globe-contact{width:min(78vw,360px);opacity:.04}
-  .deco-orbit-cheap{width:min(46vw,190px);opacity:.45}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .deco-float,.deco-spin,.deco-spin-rev,.orbit-spin{animation:none}
+  .deco-float,.deco-spin,.deco-spin-rev{animation:none}
 }
 
 /* ==================== FLOATING CONTACT DOCK ====================
