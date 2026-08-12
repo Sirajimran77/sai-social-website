@@ -933,6 +933,52 @@ body.modal-open{overflow:hidden}
   .stats-grid{scroll-behavior:smooth}
 }
 
+/* A <button> that reads as a link. Used inside the privacy copy for the cookie
+   settings control — it performs an action rather than navigating, so it has to
+   be a button for keyboard and screen-reader users, but it should look like the
+   surrounding prose links. */
+.linklike{
+  font:inherit;color:var(--accent);font-weight:700;
+  background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;
+}
+
+/* ==================== COOKIE CONSENT BANNER ====================
+   Only rendered when a tracking tag is actually configured (see /gtag-init.js);
+   with no tags there is nothing to consent to and no banner.
+
+   z-index 170 places it above the site header (160) but below the quiz modal
+   (200) — see the ladder in CLAUDE.md. Above the header so it is never tucked
+   behind it; below the modal so a quiz that opens on top isn't fighting it.
+
+   Accept and Decline are deliberately the same size and weight. A greyed-out
+   "Decline" next to a bright "Accept" is what the ICO calls a nudge, and it
+   makes the consent invalid. Not a style choice - don't "fix" the asymmetry. */
+.cookie-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:170;
+  display:none;gap:18px;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;
+  padding:18px clamp(16px,4vw,40px);
+  background:#0b0b0b;border-top:2px solid var(--accent);
+  color:#fff;
+  box-shadow:0 -18px 40px rgba(0,0,0,.45);
+}
+.cookie-bar[data-open]{display:flex}
+.cookie-bar p{margin:0;max-width:64ch;font-size:.92rem;line-height:1.55;color:var(--ink-200,#d8d8d8)}
+.cookie-bar a{color:var(--accent);font-weight:700}
+.cookie-actions{display:flex;gap:10px;flex-shrink:0}
+.cookie-actions button{
+  font:inherit;font-weight:700;font-size:.86rem;letter-spacing:.02em;
+  padding:12px 22px;border:2px solid #fff;background:transparent;color:#fff;
+  cursor:pointer;transition:background .15s,color .15s;
+}
+.cookie-actions button:hover{background:#fff;color:#000}
+.cookie-actions .cookie-accept{background:var(--accent);border-color:var(--accent)}
+.cookie-actions .cookie-accept:hover{background:#fff;border-color:#fff;color:#000}
+@media(max-width:620px){
+  .cookie-bar{flex-direction:column;align-items:stretch;gap:14px}
+  .cookie-actions button{flex:1}
+}
+
 /* ==================== MOBILE CAROUSELS ====================
    Pricing tiers and process steps become horizontal swipe tracks on narrow
    screens rather than a tall stack. Cards bleed to the screen edge so it

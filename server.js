@@ -40,8 +40,8 @@ const TO_EMAIL = process.env.TO_EMAIL || 'saimanagement77@gmail.com';
 // Override with SITE_ORIGIN once the real domain is live.
 const SITE_ORIGIN = (process.env.SITE_ORIGIN || 'https://www.saisocial.co.uk').replace(/\/$/, '');
 
-/* --------------------------------------------------- Google Ads conversions */
-// Both blank = tracking is off and the CSP below stays locked to 'self'. That
+/* ------------------------------------------- Google Ads + Analytics (gtag) */
+// All blank = tracking is off and the CSP below stays locked to 'self'. That
 // is the default: we don't widen the policy for a tag nobody is using.
 //   GOOGLE_ADS_ID                - the AW-XXXXXXXXXX conversion account id
 //   GOOGLE_ADS_CONVERSION_LABEL  - the per-action label from the conversion
@@ -58,9 +58,24 @@ const GOOGLE_ADS_ID = /^AW-\d{6,}$/.test(rawAdsId) ? rawAdsId : '';
 const GOOGLE_ADS_CONVERSION_LABEL = /^[A-Za-z0-9_-]{1,64}$/.test(rawAdsLabel) ? rawAdsLabel : '';
 const ADS_ENABLED = Boolean(GOOGLE_ADS_ID);
 
+// GA4 measurement id, G-XXXXXXXXXX. Independent of the Ads id — either, both or
+// neither can be set, and one gtag loader serves both.
+const rawGaId = (process.env.GA_MEASUREMENT_ID || '').trim();
+const GA_MEASUREMENT_ID = /^G-[A-Z0-9]{6,}$/.test(rawGaId) ? rawGaId : '';
+const GA_ENABLED = Boolean(GA_MEASUREMENT_ID);
+
+// Anything that sets a non-essential cookie. Drives both the CSP widening and
+// whether the consent banner is shown at all — no tags, no banner, because
+// there is then nothing to consent to.
+const TRACKING_ENABLED = ADS_ENABLED || GA_ENABLED;
+
 if (rawAdsId && !GOOGLE_ADS_ID) {
   console.warn(`⚠ GOOGLE_ADS_ID "${rawAdsId}" is not a valid AW-XXXXXXXXXX id — conversion tracking is OFF.`);
 }
+if (rawGaId && !GA_MEASUREMENT_ID) {
+  console.warn(`⚠ GA_MEASUREMENT_ID "${rawGaId}" is not a valid G-XXXXXXXXXX id — analytics is OFF.`);
+}
+if (GA_ENABLED) console.log(`✓ Google Analytics enabled (${GA_MEASUREMENT_ID}) — consent required before cookies are set.`);
 if (ADS_ENABLED && !GOOGLE_ADS_CONVERSION_LABEL) {
   console.warn('⚠ GOOGLE_ADS_ID is set but GOOGLE_ADS_CONVERSION_LABEL is not. ' +
     'The tag will load and record page views, but booking conversions will NOT be reported to Google Ads.');
@@ -88,30 +103,37 @@ if (ADS_ENABLED && !GOOGLE_ADS_CONVERSION_LABEL) {
 // served from /gtag-init.js (same origin) rather than pasted inline, so the
 // snippet Google gives you does not need a hash and cannot drift out of sync
 // with one.
-const adsScriptSrc = ['https://www.googletagmanager.com', 'https://www.googleadservices.com'];
-const adsImgSrc = [
+// One host list for both tags — GA4 and Ads share the googletagmanager loader,
+// and GA4 additionally beacons to the regional *.google-analytics.com endpoints
+// (which is why the wildcards are here: GA4 picks a region at runtime, so
+// pinning exact subdomains silently drops hits from some visitors).
+const trackScriptSrc = ['https://www.googletagmanager.com', 'https://www.googleadservices.com'];
+const trackImgSrc = [
   'https://www.google.com', 'https://www.google.co.uk',
   'https://www.googleadservices.com', 'https://googleads.g.doubleclick.net',
+  'https://www.google-analytics.com', 'https://stats.g.doubleclick.net',
 ];
-const adsConnectSrc = [
+const trackConnectSrc = [
   'https://www.googletagmanager.com', 'https://www.google-analytics.com',
-  'https://region1.google-analytics.com', 'https://www.google.com',
-  'https://googleads.g.doubleclick.net', 'https://pagead2.googlesyndication.com',
+  'https://*.google-analytics.com', 'https://analytics.google.com',
+  'https://*.analytics.google.com', 'https://www.google.com',
+  'https://googleads.g.doubleclick.net', 'https://stats.g.doubleclick.net',
+  'https://pagead2.googlesyndication.com',
 ];
-const adsFrameSrc = ['https://td.doubleclick.net', 'https://www.googletagmanager.com'];
+const trackFrameSrc = ['https://td.doubleclick.net', 'https://www.googletagmanager.com'];
 
 app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: false,
     directives: {
       'default-src': ["'self'"],
-      'script-src': ["'self'", ...(ADS_ENABLED ? adsScriptSrc : [])],
+      'script-src': ["'self'", ...(TRACKING_ENABLED ? trackScriptSrc : [])],
       'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
       'font-src': ["'self'", 'https://fonts.gstatic.com'],
-      'img-src': ["'self'", 'data:', ...(ADS_ENABLED ? adsImgSrc : [])],
+      'img-src': ["'self'", 'data:', ...(TRACKING_ENABLED ? trackImgSrc : [])],
       'media-src': ["'self'"],
-      'connect-src': ["'self'", ...(ADS_ENABLED ? adsConnectSrc : [])],
-      ...(ADS_ENABLED ? { 'frame-src': adsFrameSrc } : {}),
+      'connect-src': ["'self'", ...(TRACKING_ENABLED ? trackConnectSrc : [])],
+      ...(TRACKING_ENABLED ? { 'frame-src': trackFrameSrc } : {}),
       'form-action': ["'self'"],
       'frame-ancestors': ["'none'"],
       'base-uri': ["'self'"],
@@ -286,29 +308,105 @@ app.get('/robots.txt', (_req, res) => {
 app.get('/gtag-init.js', (_req, res) => {
   res.type('application/javascript').set('Cache-Control', 'no-cache');
 
-  if (!ADS_ENABLED) {
-    return res.send('/* Google Ads tracking disabled (no GOOGLE_ADS_ID set). */\n'
-      + 'window.saiTrackConversion = function () {};\n');
+  if (!TRACKING_ENABLED) {
+    return res.send('/* Tracking disabled (no GOOGLE_ADS_ID / GA_MEASUREMENT_ID set). */\n'
+      + 'window.saiTrackConversion = function () {};\n'
+      // Same shape as the enabled version so callers never have to feature-test
+      // individual methods.
+      + 'window.saiConsent = { required: false, state: "n/a", '
+      + 'grant: function () {}, deny: function () {}, reset: function () {} };\n');
   }
 
   const sendTo = GOOGLE_ADS_CONVERSION_LABEL
     ? `${GOOGLE_ADS_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`
     : '';
+  // Loader id can be either tag; gtag serves both from one script.
+  const loaderId = GA_MEASUREMENT_ID || GOOGLE_ADS_ID;
+  const configIds = [GA_MEASUREMENT_ID, GOOGLE_ADS_ID].filter(Boolean);
 
-  res.send(`/* Google Ads conversion tracking — generated by server.js */
+  res.send(`/* Google tags (Analytics + Ads) — generated by server.js */
 (function () {
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}';
-  document.head.appendChild(s);
+  var STORE = 'sai_consent';           // 'granted' | 'denied'
+  var CONFIG_IDS = ${JSON.stringify(configIds)};
+  var SEND_TO = ${JSON.stringify(sendTo)};
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', '${GOOGLE_ADS_ID}');
 
-  var SEND_TO = ${JSON.stringify(sendTo)};
+  // CONSENT MODE v2 — denied BEFORE the tag loads. Under UK PECR a non-essential
+  // cookie may not be set until the visitor agrees, so this default must be
+  // pushed first: pushing it after gtag/js has run is too late, the cookie is
+  // already written. Google still receives cookieless pings while denied, which
+  // is what keeps modelling usable without storing anything on the device.
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+
+  function stored() {
+    try { return localStorage.getItem(STORE); } catch (e) { return null; }
+  }
+  function remember(v) {
+    try { localStorage.setItem(STORE, v); } catch (e) { /* private mode */ }
+  }
+  function apply(v) {
+    var on = v === 'granted' ? 'granted' : 'denied';
+    gtag('consent', 'update', {
+      ad_storage: on,
+      ad_user_data: on,
+      ad_personalization: on,
+      analytics_storage: on
+    });
+  }
+
+  // Consent Mode stops gtag USING cookies, but it does not remove ones already
+  // written — so someone who accepts and later changes their mind keeps the
+  // identifiers on their device. Withdrawing consent should leave them no worse
+  // off than never having agreed, so clear them out. Each cookie is expired
+  // against every plausible domain scope, because we can't tell from here which
+  // one it was written against.
+  function clearAnalyticsCookies() {
+    var host = location.hostname;
+    var scopes = ['', host, '.' + host];
+    var parts = host.split('.');
+    if (parts.length > 2) scopes.push('.' + parts.slice(-2).join('.'));
+    document.cookie.split(';').forEach(function (c) {
+      var name = c.split('=')[0].trim();
+      if (!/^(_ga|_gid|_gcl|_gac)/.test(name)) return;
+      scopes.forEach(function (d) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'
+          + (d ? '; domain=' + d : '');
+      });
+    });
+  }
+
+  // Re-apply a previous decision on every page load.
+  var prior = stored();
+  if (prior) apply(prior);
+
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=${loaderId}';
+  document.head.appendChild(s);
+
+  gtag('js', new Date());
+  CONFIG_IDS.forEach(function (id) { gtag('config', id); });
+
+  // app.js reads .required to decide whether to show the banner, and calls
+  // grant/deny from its buttons.
+  window.saiConsent = {
+    required: true,
+    state: prior || 'unset',
+    grant: function () { remember('granted'); this.state = 'granted'; apply('granted'); },
+    deny:  function () { remember('denied');  this.state = 'denied';  apply('denied'); clearAnalyticsCookies(); },
+    reset: function () { try { localStorage.removeItem(STORE); } catch (e) {} this.state = 'unset'; }
+  };
 
   // Called by app.js when a booking enquiry is accepted. Fires once per
   // submission. If the label is missing we log rather than fail silently —
@@ -316,7 +414,7 @@ app.get('/gtag-init.js', (_req, res) => {
   // campaign looks like it simply isn't converting.
   window.saiTrackConversion = function () {
     if (!SEND_TO) {
-      console.warn('[sai] GOOGLE_ADS_CONVERSION_LABEL not set — conversion not reported.');
+      ${ADS_ENABLED ? "console.warn('[sai] GOOGLE_ADS_CONVERSION_LABEL not set — conversion not reported.');" : ''}
       return;
     }
     gtag('event', 'conversion', { send_to: SEND_TO });
