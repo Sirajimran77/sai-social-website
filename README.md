@@ -47,8 +47,13 @@ The form emails through SMTP. The simplest setup uses the Gmail account itself:
 
 ## 3. Deploy (go live)
 
-Any host that runs Node 18+ works — e.g. **Render**, **Railway**, **Fly.io**,
-or a VPS. General steps:
+**On a VPS: follow [`deploy/DEPLOY.md`](deploy/DEPLOY.md).** It's the full
+step-by-step runbook for Ubuntu 24.04 + nginx + Let's Encrypt, with the
+domain, firewall and DNS specifics. The configs it installs live in
+[`deploy/`](deploy/).
+
+On a PaaS instead, any host that runs Node 18+ works — e.g. **Render**,
+**Railway**, **Fly.io**. General steps:
 
 1. Push this folder to a Git repo (the `.env` file is gitignored — do **not**
    commit it).
@@ -72,6 +77,10 @@ or a VPS. General steps:
 | `SMTP_SECURE` | – | `true` | `true` for 465, `false` for 587 |
 | `FROM_EMAIL` | – | `SMTP_USER` | "From" address on the email |
 | `PORT` | – | `3000` | Port the server listens on |
+| `HOST` | – | `0.0.0.0` | Bind address. Set `127.0.0.1` behind nginx |
+| `NODE_ENV` | – | – | `production` enables HSTS + proxy-aware rate limiting |
+| `SITE_ORIGIN` | – | `https://www.saisocial.co.uk` | Canonical URLs, sitemap, allowed form origin |
+| `EXTRA_ORIGINS` | – | – | Extra comma-separated origins allowed to POST the form |
 
 ## Notes & things to finish before launch
 

@@ -16,6 +16,12 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+// On a VPS the app sits behind nginx, so it should only ever be reachable on
+// loopback — binding 0.0.0.0 there leaves port 3000 open to the internet and
+// lets anyone bypass nginx (and therefore TLS, and the real client IP the rate
+// limiter keys on). Set HOST=127.0.0.1 in production .env; default stays open
+// so local/dev and PaaS hosts that probe the container keep working.
+const HOST = process.env.HOST || '0.0.0.0';
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 // Behind a reverse proxy (Cloudflare, nginx, Render, Fly...) req.ip is the
@@ -421,6 +427,12 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+// Liveness probe for systemd/nginx/uptime monitoring. Deliberately cheap and
+// noindex'd — it exists so a watchdog can tell "process up" from "port open".
+app.get('/healthz', (_req, res) => {
+  res.type('text/plain').set('Cache-Control', 'no-store').send('ok');
+});
+
 // Real 404 for unknown paths (previously every path returned the homepage,
 // creating soft-404s that waste crawl budget and confuse indexing).
 app.use((req, res) => {
@@ -438,4 +450,16 @@ app.use((req, res) => {
 </body></html>`);
 });
 
-app.listen(PORT, () => console.log(`SAI Social site running on http://localhost:${PORT}`));
+const server = app.listen(PORT, HOST, () =>
+  console.log(`SAI Social site running on http://${HOST}:${PORT}`));
+
+// systemd sends SIGTERM on `systemctl restart/stop`. Without this the process
+// is killed mid-request (and mid-SMTP-send) after a 90s timeout; with it,
+// in-flight enquiries finish and the restart is instant.
+['SIGTERM', 'SIGINT'].forEach((sig) => {
+  process.on(sig, () => {
+    console.log(`${sig} received — shutting down.`);
+    server.close(() => process.exit(0));
+    setTimeout(() => process.exit(1), 10000).unref();
+  });
+});

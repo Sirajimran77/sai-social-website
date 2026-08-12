@@ -1,0 +1,50 @@
+; systemd unit for the SAI Social site.
+; Install:  sudo cp deploy/sai-social.service /etc/systemd/system/
+;           sudo systemctl daemon-reload && sudo systemctl enable --now sai-social
+
+[Unit]
+Description=SAI Social website (Node/Express)
+Documentation=https://github.com/Sirajimran77/sai-social-website
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sai
+Group=sai
+WorkingDirectory=/srv/sai-social
+EnvironmentFile=/srv/sai-social/.env
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=3
+
+; Give in-flight requests a chance to finish on restart (server.js handles SIGTERM).
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+; Logs go to the journal:  journalctl -u sai-social -f
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=sai-social
+
+; ---- hardening -------------------------------------------------------------
+; The app writes nothing to disk, so it gets a read-only filesystem and no
+; privileges beyond reading its own directory.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/srv/sai-social
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+RestrictSUIDSGID=true
+RemoveIPC=true
+
+[Install]
+WantedBy=multi-user.target
