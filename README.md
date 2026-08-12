@@ -1,4 +1,4 @@
-# SAI Social — "Fill The Room" website
+# SAI Social — website
 
 A production build of the SAI Social lead-generation landing page (brutalist,
 black + electric-blue), with a small Node.js backend that emails every booking
